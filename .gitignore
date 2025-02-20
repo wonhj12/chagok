@@ -117,6 +117,7 @@ app.*.map.json
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
 Info.plist
+GoogleService-Info.plist
 
 # Coverage
 coverage/
