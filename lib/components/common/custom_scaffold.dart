@@ -1,4 +1,4 @@
-import 'package:chagok/components/loading_screen.dart';
+import 'package:chagok/components/common/loading_screen.dart';
 import 'package:flutter/material.dart';
 
 class CustomScaffold extends StatelessWidget {
