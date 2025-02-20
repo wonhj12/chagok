@@ -33,7 +33,6 @@ class CustomScaffold extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: AppBar(),
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         body: SafeArea(
           child: Stack(
