@@ -1,3 +1,4 @@
+import 'package:chagok/models/todo_model.dart';
 import 'package:chagok/utils/app_router.dart';
 import 'package:chagok/utils/custom_theme_data.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +18,11 @@ void main() async {
   runApp(const MainApp());
 }
 
+// 모델
+final TodoModel todoModel = TodoModel();
+
 // 라우터
-final _router = AppRouter.getRouter();
+final _router = AppRouter.getRouter(todoModel);
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
