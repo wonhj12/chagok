@@ -1,5 +1,7 @@
+import 'package:chagok/utils/enums/app_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart' as kakao;
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -42,18 +44,17 @@ class LoginViewModel with ChangeNotifier {
     }
 
     // Supabase 로그인
-    try {
-      await supabase.auth.signInWithIdToken(
-        provider: OAuthProvider.kakao,
-        idToken: idToken,
-        accessToken: accessToken,
-      );
-    } catch (e) {
-      print('Error: $e');
-    }
+    await supabase.auth.signInWithIdToken(
+      provider: OAuthProvider.kakao,
+      idToken: idToken,
+      accessToken: accessToken,
+    );
 
     isLoading = false;
     notifyListeners();
+
+    // 홈 화면 이동
+    context.goNamed(AppRoute.home.name);
   }
 
   /// 구글 로그인
@@ -85,17 +86,16 @@ class LoginViewModel with ChangeNotifier {
     }
 
     // Supabase 로그인
-    try {
-      await supabase.auth.signInWithIdToken(
-        provider: OAuthProvider.google,
-        idToken: idToken,
-        accessToken: accessToken,
-      );
-    } catch (e) {
-      print('Error: $e');
-    }
+    await supabase.auth.signInWithIdToken(
+      provider: OAuthProvider.google,
+      idToken: idToken,
+      accessToken: accessToken,
+    );
 
     isLoading = false;
     notifyListeners();
+
+    // 홈 화면 이동
+    context.goNamed(AppRoute.home.name);
   }
 }
