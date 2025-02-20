@@ -1,4 +1,4 @@
-package com.example.chagok
+package com.wonhajin.chagok
 
 import io.flutter.embedding.android.FlutterActivity
 
