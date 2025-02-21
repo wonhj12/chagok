@@ -14,11 +14,15 @@ class Todo {
   /// 감정
   final Emotion emotion;
 
+  /// 완료 여부
+  final bool isCompleted;
+
   Todo({
     required this.title,
     this.memo,
     this.time,
     required this.emotion,
+    required this.isCompleted,
   });
 
   /// 서버에서 받은 json 데이터를 Todo 오브젝트로 변환
@@ -31,6 +35,7 @@ class Todo {
           ? TimeOfDay(hour: int.parse(time[0]), minute: int.parse(time[1]))
           : null,
       emotion: Emotion.fromString(json['emotion']),
+      isCompleted: json['isCompleted'],
     );
   }
 }
