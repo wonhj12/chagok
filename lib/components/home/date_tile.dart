@@ -1,52 +1,56 @@
+import 'package:chagok/utils/date_time.dart';
 import 'package:chagok/utils/palette.dart';
 import 'package:flutter/material.dart';
 
 class DateTile extends StatelessWidget {
-  /// 일
-  final int day;
-
-  /// 요일
-  final String weekDay;
+  /// 날짜
+  final DateTime date;
 
   /// 선택된 날짜 여부
   final bool isSelected;
 
+  /// 날짜 선택
+  final void Function()? onTap;
+
   const DateTile({
     super.key,
-    required this.day,
-    required this.weekDay,
+    required this.date,
     required this.isSelected,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 48,
-      height: 64,
-      decoration: BoxDecoration(
-        color: isSelected ? Palette.primary : Colors.transparent,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // 일
-          Text(
-            '$day',
-            style: Palette.headline.copyWith(
-              color: isSelected ? Palette.surface : Palette.onSurface,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 48,
+        height: 64,
+        decoration: BoxDecoration(
+          color: isSelected ? Palette.primary : Colors.transparent,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // 일
+            Text(
+              '${date.day}',
+              style: Palette.headline.copyWith(
+                color: isSelected ? Palette.surface : Palette.onSurface,
+              ),
             ),
-          ),
 
-          // 요일
-          Text(
-            weekDay,
-            style: Palette.caption.copyWith(
-              color: isSelected ? Palette.surface : Palette.onSurface,
+            // 요일
+            Text(
+              weekdayToString(date.weekday).substring(0, 1),
+              style: Palette.caption.copyWith(
+                color: isSelected ? Palette.surface : Palette.onSurface,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
