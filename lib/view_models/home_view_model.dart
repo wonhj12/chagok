@@ -20,7 +20,7 @@ class HomeViewModel with ChangeNotifier {
   /// 선택된 날짜의 연도를 반환
   String getYear() => '${todoModel.selectedDate.year}';
 
-  /// 주어진 요일이 선택된 날짜가 일치 여부를 반환
+  /// 주어진 요일과 선택된 날짜 일치 여부를 반환
   bool isSelectedDay(int index) {
     return index == todoModel.selectedDate.weekday % 7;
   }
