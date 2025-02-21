@@ -39,9 +39,29 @@ class TodoModel with ChangeNotifier {
     ),
   ];
 
+  /* Todo 등록 관련 변수 */
+  /// 제목
+  TextEditingController title = TextEditingController();
+
+  /// 메모
+  TextEditingController memo = TextEditingController();
+
+  /// 시간
+  TimeOfDay? time;
+
+  /// 감정
+  Emotion emotion = Emotion.happy;
+
   TodoModel() {
     // 모델이 처음 생성될 때 오늘이 포함된 주차 계산
     getSelectedWeek();
+  }
+
+  void resetCurrentTodo() {
+    title.clear();
+    memo.clear();
+    time = null;
+    emotion = Emotion.happy;
   }
 
   /// 선택된 날짜가 포함된 주의 날짜를 반환
