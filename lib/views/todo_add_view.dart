@@ -85,7 +85,9 @@ class TodoAddView extends StatelessWidget {
                   Text(
                     '시간',
                     style: Palette.body.copyWith(
-                      color: Palette.onSurfaceVariant,
+                      color: todoAddViewModel.todoModel.time == null
+                          ? Palette.onSurfaceVariant
+                          : Palette.onSurface,
                     ),
                   ),
 
@@ -94,16 +96,21 @@ class TodoAddView extends StatelessWidget {
                     width: 100,
                     height: 36,
                     child: FilledButton(
-                      onPressed: () {},
+                      onPressed: todoAddViewModel.onPressedTime,
                       style: FilledButton.styleFrom(
                         padding: EdgeInsets.zero,
-                        foregroundColor: Palette.onSurfaceVariant,
+                        foregroundColor: todoAddViewModel.todoModel.time == null
+                            ? Palette.onSurfaceVariant
+                            : Palette.onSurface,
                         backgroundColor: Palette.surface,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      child: Text('설정 안함', style: Palette.body),
+                      child: Text(
+                        todoAddViewModel.getTime(),
+                        style: Palette.callout,
+                      ),
                     ),
                   )
                 ],
