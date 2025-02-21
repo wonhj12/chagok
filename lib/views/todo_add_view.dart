@@ -2,13 +2,17 @@ import 'package:chagok/components/common/custom_scaffold.dart';
 import 'package:chagok/components/home/emotion_box.dart';
 import 'package:chagok/utils/enums/emotion.dart';
 import 'package:chagok/utils/palette.dart';
+import 'package:chagok/view_models/todo_add_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TodoAddView extends StatelessWidget {
   const TodoAddView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TodoAddViewModel todoAddViewModel = context.watch<TodoAddViewModel>();
+
     return CustomScaffold(
       title: '등록하기',
       resizeToAvoidBottomInset: false,
@@ -127,11 +131,32 @@ class TodoAddView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                EmotionBox(emotion: Emotion.happy, isSelected: false),
-                EmotionBox(emotion: Emotion.longing, isSelected: false),
-                EmotionBox(emotion: Emotion.soso, isSelected: false),
-                EmotionBox(emotion: Emotion.hate, isSelected: false),
-                EmotionBox(emotion: Emotion.sad, isSelected: false),
+                EmotionBox(
+                  emotion: Emotion.happy,
+                  isSelected: todoAddViewModel.isSelectedEmotion(Emotion.happy),
+                  onTap: () => todoAddViewModel.onTapEmotion(Emotion.happy),
+                ),
+                EmotionBox(
+                  emotion: Emotion.longing,
+                  isSelected:
+                      todoAddViewModel.isSelectedEmotion(Emotion.longing),
+                  onTap: () => todoAddViewModel.onTapEmotion(Emotion.longing),
+                ),
+                EmotionBox(
+                  emotion: Emotion.soso,
+                  isSelected: todoAddViewModel.isSelectedEmotion(Emotion.soso),
+                  onTap: () => todoAddViewModel.onTapEmotion(Emotion.soso),
+                ),
+                EmotionBox(
+                  emotion: Emotion.hate,
+                  isSelected: todoAddViewModel.isSelectedEmotion(Emotion.hate),
+                  onTap: () => todoAddViewModel.onTapEmotion(Emotion.hate),
+                ),
+                EmotionBox(
+                  emotion: Emotion.sad,
+                  isSelected: todoAddViewModel.isSelectedEmotion(Emotion.sad),
+                  onTap: () => todoAddViewModel.onTapEmotion(Emotion.sad),
+                ),
               ],
             ),
             const Spacer(),

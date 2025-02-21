@@ -10,33 +10,40 @@ class EmotionBox extends StatelessWidget {
   /// 선택 여부
   final bool isSelected;
 
+  /// 선택 함수
+  final void Function()? onTap;
+
   const EmotionBox({
     super.key,
     required this.emotion,
     required this.isSelected,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 64,
-      height: 128,
-      child: Column(
-        children: [
-          // 선택 라디오 버튼
-          RadioButton(isSelected: isSelected),
-          const SizedBox(height: 16),
+    return GestureDetector(
+      onTap: onTap,
+      child: SizedBox(
+        width: 64,
+        height: 128,
+        child: Column(
+          children: [
+            // 선택 라디오 버튼
+            RadioButton(isSelected: isSelected),
+            const SizedBox(height: 16),
 
-          // 아이콘
-          Image.asset(
-            width: 64,
-            height: 64,
-            'assets/icons/emotion_${emotion.name}.png',
-          ),
-          const SizedBox(height: 12),
+            // 아이콘
+            Image.asset(
+              width: 64,
+              height: 64,
+              'assets/icons/emotion_${emotion.name}.png',
+            ),
+            const SizedBox(height: 12),
 
-          Text(emotion.description, style: Palette.caption)
-        ],
+            Text(emotion.description, style: Palette.caption)
+          ],
+        ),
       ),
     );
   }
