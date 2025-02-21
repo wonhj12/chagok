@@ -41,6 +41,7 @@ class DateTile extends StatelessWidget {
                 color: isSelected ? Palette.surface : Palette.onSurface,
               ),
             ),
+            const SizedBox(height: 4),
 
             // 요일
             Text(

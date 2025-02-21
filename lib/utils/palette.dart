@@ -13,17 +13,17 @@ class Palette {
 
   /* Typography */
   static const TextStyle largeTitle =
-      TextStyle(fontSize: 34, fontWeight: FontWeight.w400);
+      TextStyle(fontSize: 34, fontWeight: FontWeight.w400, height: 1);
   static const TextStyle largeTitleSemibold =
-      TextStyle(fontSize: 34, fontWeight: FontWeight.w600);
+      TextStyle(fontSize: 34, fontWeight: FontWeight.w600, height: 1);
   static const TextStyle title =
-      TextStyle(fontSize: 28, fontWeight: FontWeight.w400);
+      TextStyle(fontSize: 28, fontWeight: FontWeight.w600, height: 1);
   static const TextStyle headline =
-      TextStyle(fontSize: 17, fontWeight: FontWeight.w600);
+      TextStyle(fontSize: 17, fontWeight: FontWeight.w600, height: 1);
   static const TextStyle body =
-      TextStyle(fontSize: 17, fontWeight: FontWeight.w400);
+      TextStyle(fontSize: 17, fontWeight: FontWeight.w400, height: 1.4);
   static const TextStyle callout =
-      TextStyle(fontSize: 16, fontWeight: FontWeight.w400);
+      TextStyle(fontSize: 16, fontWeight: FontWeight.w400, height: 1);
   static const TextStyle caption =
-      TextStyle(fontSize: 12, fontWeight: FontWeight.w400);
+      TextStyle(fontSize: 12, fontWeight: FontWeight.w400, height: 1);
 }
