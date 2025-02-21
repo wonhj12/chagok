@@ -32,7 +32,10 @@ class HomeView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  // 월, 일
                   Text(homeViewModel.getMonthDay(), style: Palette.headline),
+
+                  // 년
                   Text(
                     homeViewModel.getYear(),
                     style: Palette.body.copyWith(
@@ -115,7 +118,7 @@ class HomeView extends StatelessWidget {
         ],
       ),
       floatingActionButton: IconButton.filled(
-        onPressed: () {},
+        onPressed: homeViewModel.onPressedFAB,
         icon: Icon(
           Icons.add_rounded,
           size: 32,

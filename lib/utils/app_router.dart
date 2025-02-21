@@ -2,8 +2,10 @@ import 'package:chagok/models/todo_model.dart';
 import 'package:chagok/utils/enums/app_route.dart';
 import 'package:chagok/view_models/home_view_model.dart';
 import 'package:chagok/view_models/login_view_model.dart';
+import 'package:chagok/view_models/todo_add_view_model.dart';
 import 'package:chagok/views/home_view.dart';
 import 'package:chagok/views/login_view.dart';
+import 'package:chagok/views/todo_add_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -41,10 +43,26 @@ class AppRouter {
           path: '/home',
           name: AppRoute.home.name,
           builder: (context, state) => ChangeNotifierProvider(
-            create: (context) =>
-                HomeViewModel(todoModel: todoModel, context: context),
+            create: (context) => HomeViewModel(
+              todoModel: todoModel,
+              context: context,
+            ),
             child: const HomeView(),
           ),
+          routes: [
+            // Todo 추가
+            GoRoute(
+              path: 'add',
+              name: AppRoute.add.name,
+              builder: (context, state) => ChangeNotifierProvider(
+                create: (context) => TodoAddViewModel(
+                  todoModel: todoModel,
+                  context: context,
+                ),
+                child: const TodoAddView(),
+              ),
+            )
+          ],
         ),
       ],
     );

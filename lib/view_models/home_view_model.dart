@@ -1,6 +1,8 @@
 import 'package:chagok/models/todo_model.dart';
 import 'package:chagok/utils/date_time.dart';
+import 'package:chagok/utils/enums/app_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeViewModel with ChangeNotifier {
   final TodoModel todoModel;
@@ -23,8 +25,14 @@ class HomeViewModel with ChangeNotifier {
     return index == todoModel.selectedDate.weekday % 7;
   }
 
+  /// 날짜 선택시 선택 날짜를 변경
   void onTapDateTile(int index) {
     todoModel.selectedDate = todoModel.selectedWeek[index];
     notifyListeners();
+  }
+
+  /// FAB 클릭시 Todo 추가 페이지 이동
+  void onPressedFAB() {
+    context.goNamed(AppRoute.add.name);
   }
 }
