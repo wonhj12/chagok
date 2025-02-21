@@ -2,6 +2,12 @@ import 'package:chagok/components/common/loading_screen.dart';
 import 'package:flutter/material.dart';
 
 class CustomScaffold extends StatelessWidget {
+  /// 상단 제목
+  final String? title;
+
+  /// 앱바 뒤로가기 표시 여부
+  final bool showBackBtn;
+
   /// 하단 크기 자동 조절
   final bool? resizeToAvoidBottomInset;
 
@@ -21,6 +27,8 @@ class CustomScaffold extends StatelessWidget {
   /// 좌우 padding: 20px
   const CustomScaffold({
     super.key,
+    this.title,
+    this.showBackBtn = false,
     this.resizeToAvoidBottomInset,
     this.isLoading = false,
     this.body,
@@ -33,6 +41,7 @@ class CustomScaffold extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        appBar: title != null ? AppBar(title: Text(title!)) : null,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         body: SafeArea(
           child: Stack(

@@ -8,6 +8,13 @@ class CustomThemeData {
     // Scaffold 테마
     scaffoldBackgroundColor: Palette.surface, // Scaffold BG
 
+    appBarTheme: AppBarTheme(
+      titleTextStyle: Palette.headline.copyWith(
+        color: Palette.onSurface,
+      ),
+      foregroundColor: Palette.onSurface,
+    ),
+
     // 앱 전체적인 테마
     colorScheme: const ColorScheme.light(
       primary: Palette.primary,
