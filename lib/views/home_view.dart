@@ -3,6 +3,7 @@ import 'package:chagok/components/home/date_tile.dart';
 import 'package:chagok/components/home/todo_list_tile.dart';
 import 'package:chagok/utils/palette.dart';
 import 'package:chagok/view_models/home_view_model.dart';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,16 +22,19 @@ class HomeView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // 요일
-              Text('금요일', style: Palette.largeTitleSemibold),
+              Text(
+                homeViewModel.getWeekDay(),
+                style: Palette.largeTitleSemibold,
+              ),
 
               // 날짜
               Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text('2월 21일', style: Palette.headline),
+                  Text(homeViewModel.getMonthDay(), style: Palette.headline),
                   Text(
-                    '2025',
+                    homeViewModel.getYear(),
                     style: Palette.body.copyWith(
                       color: Palette.onSurfaceVariant,
                     ),
@@ -45,13 +49,41 @@ class HomeView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              DateTile(day: 16, weekDay: '일', isSelected: false),
-              DateTile(day: 17, weekDay: '월', isSelected: false),
-              DateTile(day: 18, weekDay: '화', isSelected: false),
-              DateTile(day: 19, weekDay: '수', isSelected: false),
-              DateTile(day: 20, weekDay: '목', isSelected: false),
-              DateTile(day: 21, weekDay: '금', isSelected: true),
-              DateTile(day: 22, weekDay: '토', isSelected: false),
+              DateTile(
+                date: homeViewModel.todoModel.selectedWeek[0],
+                isSelected: homeViewModel.isSelectedDay(0),
+                onTap: () => homeViewModel.onTapDateTile(0),
+              ),
+              DateTile(
+                date: homeViewModel.todoModel.selectedWeek[1],
+                isSelected: homeViewModel.isSelectedDay(1),
+                onTap: () => homeViewModel.onTapDateTile(1),
+              ),
+              DateTile(
+                date: homeViewModel.todoModel.selectedWeek[2],
+                isSelected: homeViewModel.isSelectedDay(2),
+                onTap: () => homeViewModel.onTapDateTile(2),
+              ),
+              DateTile(
+                date: homeViewModel.todoModel.selectedWeek[3],
+                isSelected: homeViewModel.isSelectedDay(3),
+                onTap: () => homeViewModel.onTapDateTile(3),
+              ),
+              DateTile(
+                date: homeViewModel.todoModel.selectedWeek[4],
+                isSelected: homeViewModel.isSelectedDay(4),
+                onTap: () => homeViewModel.onTapDateTile(4),
+              ),
+              DateTile(
+                date: homeViewModel.todoModel.selectedWeek[5],
+                isSelected: homeViewModel.isSelectedDay(5),
+                onTap: () => homeViewModel.onTapDateTile(5),
+              ),
+              DateTile(
+                date: homeViewModel.todoModel.selectedWeek[6],
+                isSelected: homeViewModel.isSelectedDay(6),
+                onTap: () => homeViewModel.onTapDateTile(6),
+              ),
             ],
           ),
           const SizedBox(height: 24),
@@ -71,10 +103,10 @@ class HomeView extends StatelessWidget {
                 itemBuilder: (_, index) => TodoListTile(
                   todo: homeViewModel.todoModel.todos[index],
                 ),
-                separatorBuilder: (_, __) => Divider(
-                  height: 0,
-                  thickness: 0.5,
-                  color: Palette.onSurfaceVariant,
+                separatorBuilder: (_, __) => DottedLine(
+                  dashColor: Palette.onSurfaceVariant,
+                  dashLength: 2,
+                  dashGapLength: 5,
                 ),
                 itemCount: homeViewModel.todoModel.todos.length,
               ),
