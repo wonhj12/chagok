@@ -16,5 +16,8 @@ String weekdayToString(int weekday) {
 
 /// `TimeOfDay`를 `HH:mm` 형식으로 변환
 String timeOfDayToString(TimeOfDay timeOfDay) {
-  return '${timeOfDay.hour.toString().padLeft(2, '0')}:${timeOfDay.minute.toString().padLeft(2, '0')}';
+  return '${[
+    '오전',
+    '오후',
+  ][timeOfDay.hour ~/ 12]} ${(timeOfDay.hourOfPeriod).toString().padLeft(2, '0')}:${timeOfDay.minute.toString().padLeft(2, '0')}';
 }
