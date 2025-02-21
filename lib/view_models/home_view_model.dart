@@ -33,6 +33,7 @@ class HomeViewModel with ChangeNotifier {
 
   /// FAB 클릭시 Todo 추가 페이지 이동
   void onPressedFAB() {
+    todoModel.resetCurrentTodo();
     context.goNamed(AppRoute.add.name);
   }
 }
