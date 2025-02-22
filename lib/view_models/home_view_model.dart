@@ -9,6 +9,12 @@ class HomeViewModel with ChangeNotifier {
   final BuildContext context;
   HomeViewModel({required this.todoModel, required this.context});
 
+  /// 페이지 로딩 상태
+  bool isLoading = false;
+
+  /// 달력 표시 상태
+  bool showCalendar = false;
+
   /// 선택된 날짜의 요일 반환
   String getWeekDay() => weekdayToString(todoModel.selectedDate.weekday);
 
@@ -19,6 +25,12 @@ class HomeViewModel with ChangeNotifier {
 
   /// 선택된 날짜의 연도를 반환
   String getYear() => '${todoModel.selectedDate.year}';
+
+  /// 달력 표시 여부 변경
+  void onTapToggleCalendar() {
+    showCalendar = !showCalendar;
+    notifyListeners();
+  }
 
   /// 주어진 요일과 선택된 날짜 일치 여부를 반환
   bool isSelectedDay(int index) {
