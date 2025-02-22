@@ -37,8 +37,20 @@ class HomeView extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    // 월, 일
-                    Text(homeViewModel.getMonthDay(), style: Palette.headline),
+                    Row(
+                      children: [
+                        // 달력 표시 화살표
+                        Icon(
+                          homeViewModel.showCalendar
+                              ? Icons.arrow_drop_up_rounded
+                              : Icons.arrow_drop_down_rounded,
+                        ),
+
+                        // 월, 일
+                        Text(homeViewModel.getMonthDay(),
+                            style: Palette.headline),
+                      ],
+                    ),
 
                     // 년
                     Text(
