@@ -10,6 +10,17 @@ class TodoAddViewModel with ChangeNotifier {
   BuildContext context;
   TodoAddViewModel({required this.todoModel, required this.context});
 
+  /// 메모 입력 6줄 제한
+  TextEditingValue limitLines(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    int newLines = newValue.text.split('\n').length;
+    if (newLines > 6) {
+      return oldValue;
+    } else {
+      return newValue;
+    }
+  }
+
   /// 시간 선택
   void onPressedTime() async {
     Navigator.of(context).push(
