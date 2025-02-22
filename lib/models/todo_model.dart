@@ -1,4 +1,5 @@
 import 'package:chagok/models/todo.dart';
+import 'package:chagok/utils/api.dart';
 import 'package:chagok/utils/enums/emotion.dart';
 import 'package:flutter/material.dart';
 
@@ -8,8 +9,11 @@ class TodoModel with ChangeNotifier {
 
   List<DateTime> selectedWeek = [];
 
+  /// 선택된 주의 모든 일정 리스트
+  List<List<Todo>> todos = [[], [], [], [], [], [], []];
+
   /// 선택된 날짜의 Todo 리스트
-  List<Todo> todos = [];
+  List<Todo> selectedTodos = [];
 
   /* 일정 등록 관련 변수 */
   /// 제목
@@ -32,6 +36,20 @@ class TodoModel with ChangeNotifier {
     getSelectedWeek();
   }
 
+  /// 모델 초기화
+  void reset() {
+    selectedDate = DateTime.now();
+    selectedWeek = [];
+    resetTodos();
+    resetAddTodo();
+  }
+
+  /// 서버에서 받아온 일정 초기화
+  void resetTodos() {
+    todos = [[], [], [], [], [], [], []];
+    selectedTodos = [];
+  }
+
   /// 일정 등록 변수 초기화
   void resetAddTodo() {
     selectedTodo = null;
@@ -39,6 +57,13 @@ class TodoModel with ChangeNotifier {
     memo.clear();
     time = null;
     emotion = Emotion.happy;
+  }
+
+  /// 서버에서 일정 가져오기
+  Future<void> getTodos() async {
+    resetTodos();
+    todos = await API().getTodos(selectedDate);
+    selectedTodos = todos[selectedDate.weekday];
   }
 
   /// 일정 수정시 변수를 선택된 Todo로 동기화
@@ -61,7 +86,7 @@ class TodoModel with ChangeNotifier {
   void getSelectedWeek() {
     // 선택한 날짜가 포함된 주의 월요일을 계산
     DateTime sunday =
-        selectedDate.subtract(Duration(days: selectedDate.weekday));
+        selectedDate.subtract(Duration(days: selectedDate.weekday % 7));
 
     // 일요일부터 토요일까지의 날짜 리스트 생성
     selectedWeek =

@@ -8,13 +8,22 @@ import 'package:go_router/go_router.dart';
 class HomeViewModel with ChangeNotifier {
   final TodoModel todoModel;
   final BuildContext context;
-  HomeViewModel({required this.todoModel, required this.context});
+  HomeViewModel({required this.todoModel, required this.context}) {
+    initialize();
+  }
 
   /// 페이지 로딩 상태
   bool isLoading = false;
 
   /// 달력 표시 상태
   bool showCalendar = false;
+
+  /// 초기화
+  void initialize() async {
+    // 일정 불러오기
+    await todoModel.getTodos();
+    notifyListeners();
+  }
 
   /// 선택된 날짜의 요일 반환
   String getWeekDay() => weekdayToString(todoModel.selectedDate.weekday);
@@ -34,7 +43,7 @@ class HomeViewModel with ChangeNotifier {
   }
 
   /// 달력에서 날짜 선택
-  void OnDaySelected(DateTime selectedDay, DateTime focusedDay) {
+  void OnDaySelected(DateTime selectedDay, DateTime focusedDay) async {
     // 선택된 날짜 업데이터
     todoModel.selectedDate = selectedDay;
 
@@ -43,6 +52,11 @@ class HomeViewModel with ChangeNotifier {
 
     // 달력 닫기
     showCalendar = false;
+    notifyListeners();
+
+    // 일정 서버에서 가져오기
+    // 달력을 닫은 후 일정 불러오기 진행
+    await todoModel.getTodos();
     notifyListeners();
   }
 
@@ -53,7 +67,11 @@ class HomeViewModel with ChangeNotifier {
 
   /// 날짜 선택시 선택 날짜를 변경
   void onTapDateTile(int index) {
+    // 날짜 변경
     todoModel.selectedDate = todoModel.selectedWeek[index];
+
+    // 일정 변경
+    todoModel.selectedTodos = todoModel.todos[index];
     notifyListeners();
   }
 

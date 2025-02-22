@@ -83,7 +83,7 @@ class HomeView extends StatelessWidget {
 
                     // 할 일 목록
                     TodoList(
-                      todos: homeViewModel.todoModel.todos,
+                      todos: homeViewModel.todoModel.selectedTodos,
                       onTapTodo: homeViewModel.onTapTodo,
                     ),
                   ],
