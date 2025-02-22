@@ -6,7 +6,13 @@ class Calendar extends StatelessWidget {
   /// 초기 선택 날짜
   final DateTime focusedDay;
 
-  const Calendar({super.key, required this.focusedDay});
+  final Function(DateTime, DateTime)? onDaySelected;
+
+  const Calendar({
+    super.key,
+    required this.focusedDay,
+    required this.onDaySelected,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +28,11 @@ class Calendar extends StatelessWidget {
       ),
       child: TableCalendar(
         focusedDay: focusedDay,
+        selectedDayPredicate: (day) => isSameDay(focusedDay, day),
         firstDay: DateTime(2000),
         lastDay: DateTime(2100),
         shouldFillViewport: true,
+        onDaySelected: onDaySelected,
         headerStyle: HeaderStyle(
           titleCentered: true,
           formatButtonVisible: false,

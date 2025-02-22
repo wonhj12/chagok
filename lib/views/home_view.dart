@@ -76,7 +76,10 @@ class HomeView extends StatelessWidget {
 
                 // 달력
                 if (homeViewModel.showCalendar)
-                  Calendar(focusedDay: homeViewModel.todoModel.selectedDate),
+                  Calendar(
+                    focusedDay: homeViewModel.todoModel.selectedDate,
+                    onDaySelected: homeViewModel.OnDaySelected,
+                  ),
               ],
             ),
           )

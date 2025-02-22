@@ -32,6 +32,19 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  /// 달력에서 날짜 선택
+  void OnDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    // 선택된 날짜 업데이터
+    todoModel.selectedDate = selectedDay;
+
+    // 선택된 날짜가 포함된 주 업데이트
+    todoModel.getSelectedWeek();
+
+    // 달력 닫기
+    showCalendar = false;
+    notifyListeners();
+  }
+
   /// 주어진 요일과 선택된 날짜 일치 여부를 반환
   bool isSelectedDay(int index) {
     return index == todoModel.selectedDate.weekday % 7;
