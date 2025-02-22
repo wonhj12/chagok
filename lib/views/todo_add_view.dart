@@ -16,6 +16,7 @@ class TodoAddView extends StatelessWidget {
 
     return CustomScaffold(
       title: '등록하기',
+      showBackBtn: true,
       resizeToAvoidBottomInset: false,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

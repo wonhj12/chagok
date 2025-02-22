@@ -1,5 +1,6 @@
 import 'package:chagok/components/common/loading_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomScaffold extends StatelessWidget {
   /// 상단 제목
@@ -41,7 +42,17 @@ class CustomScaffold extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: title != null ? AppBar(title: Text(title!)) : null,
+        appBar: title != null
+            ? AppBar(
+                title: Text(title!),
+                leading: showBackBtn
+                    ? GestureDetector(
+                        onTap: () => context.pop(),
+                        child: Icon(Icons.arrow_back_ios_new),
+                      )
+                    : null,
+              )
+            : null,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         body: SafeArea(
           child: Stack(
