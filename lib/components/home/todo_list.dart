@@ -13,7 +13,7 @@ class TodoList extends StatelessWidget {
     return Expanded(
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.symmetric(vertical: 20),
         decoration: BoxDecoration(
           color: Palette.container,
           borderRadius: BorderRadius.circular(20),
@@ -24,10 +24,13 @@ class TodoList extends StatelessWidget {
           itemBuilder: (_, index) => TodoListTile(
             todo: todos[index],
           ),
-          separatorBuilder: (_, __) => DottedLine(
-            dashColor: Palette.onSurfaceVariant,
-            dashLength: 2,
-            dashGapLength: 5,
+          separatorBuilder: (_, __) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: DottedLine(
+              dashColor: Palette.onSurfaceVariant,
+              dashLength: 2,
+              dashGapLength: 5,
+            ),
           ),
           itemCount: todos.length,
         ),
