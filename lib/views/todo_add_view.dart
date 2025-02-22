@@ -1,5 +1,5 @@
 import 'package:chagok/components/common/custom_scaffold.dart';
-import 'package:chagok/components/home/emotion_box.dart';
+import 'package:chagok/components/todo_add/emotion_box.dart';
 import 'package:chagok/utils/enums/emotion.dart';
 import 'package:chagok/utils/palette.dart';
 import 'package:chagok/view_models/todo_add_view_model.dart';
@@ -15,8 +15,7 @@ class TodoAddView extends StatelessWidget {
     final TodoAddViewModel todoAddViewModel = context.watch<TodoAddViewModel>();
 
     return CustomScaffold(
-      title:
-          todoAddViewModel.todoModel.selectedTodo == null ? '새 일정 등록' : '일정 확인',
+      title: todoAddViewModel.titleText(),
       showBackBtn: true,
       resizeToAvoidBottomInset: false,
       body: Column(
@@ -46,6 +45,7 @@ class TodoAddView extends StatelessWidget {
                 maxLength: 12,
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.next,
+                onChanged: (_) => todoAddViewModel.onChangedText(),
               ),
             ),
           ),
@@ -92,6 +92,7 @@ class TodoAddView extends StatelessWidget {
                   ),
                 );
               },
+              onChanged: (_) => todoAddViewModel.onChangedText(),
             ),
           ),
           const SizedBox(height: 24),
@@ -204,7 +205,10 @@ class TodoAddView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
-              child: Text('등록하기', style: Palette.headline),
+              child: Text(
+                todoAddViewModel.addBtnText(),
+                style: Palette.headline,
+              ),
             ),
           )
         ],

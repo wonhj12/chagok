@@ -8,7 +8,7 @@ class TodoModel with ChangeNotifier {
 
   List<DateTime> selectedWeek = [];
 
-  /// 선택된 날짜의 todo 리스트
+  /// 선택된 날짜의 Todo 리스트
   List<Todo> todos = [
     Todo(
       id: 0,
@@ -44,7 +44,7 @@ class TodoModel with ChangeNotifier {
     ),
   ];
 
-  /* Todo 등록 관련 변수 */
+  /* 일정 등록 관련 변수 */
   /// 제목
   TextEditingController title = TextEditingController();
 
@@ -65,7 +65,7 @@ class TodoModel with ChangeNotifier {
     getSelectedWeek();
   }
 
-  /// Todo 등록 변수 초기화
+  /// 일정 등록 변수 초기화
   void resetAddTodo() {
     selectedTodo = null;
     title.clear();
@@ -74,7 +74,7 @@ class TodoModel with ChangeNotifier {
     emotion = Emotion.happy;
   }
 
-  /// Todo 수정시 변수를 선택된 Todo로 동기화
+  /// 일정 수정시 변수를 선택된 Todo로 동기화
   void selectTodo(Todo todo) {
     selectedTodo = todo;
     title.text = todo.title;
@@ -82,6 +82,13 @@ class TodoModel with ChangeNotifier {
     time = todo.time;
     emotion = todo.emotion;
   }
+
+  /// 선택된 일정 수정 여부
+  bool isTodoChanged() =>
+      selectedTodo?.title != title.text.trim() ||
+      (selectedTodo?.memo ?? '') != memo.text.trim() ||
+      selectedTodo?.time != time ||
+      selectedTodo?.emotion != emotion;
 
   /// 선택된 날짜가 포함된 주의 날짜를 반환
   void getSelectedWeek() {

@@ -10,6 +10,9 @@ class TodoAddViewModel with ChangeNotifier {
   BuildContext context;
   TodoAddViewModel({required this.todoModel, required this.context});
 
+  /// AppBar 타이틀 텍스트
+  String titleText() => todoModel.selectedTodo == null ? '새 일정 등록' : '일정 확인';
+
   /// 메모 입력 6줄 제한
   TextEditingValue limitLines(
       TextEditingValue oldValue, TextEditingValue newValue) {
@@ -19,6 +22,11 @@ class TodoAddViewModel with ChangeNotifier {
     } else {
       return newValue;
     }
+  }
+
+  /// 텍스트 수정
+  void onChangedText() {
+    notifyListeners();
   }
 
   /// 시간 선택
@@ -67,5 +75,14 @@ class TodoAddViewModel with ChangeNotifier {
   void onTapEmotion(Emotion emotion) {
     todoModel.emotion = emotion;
     notifyListeners();
+  }
+
+  /// 등록 버튼 텍스트
+  String addBtnText() {
+    return todoModel.selectedTodo == null
+        ? '등록하기'
+        : todoModel.isTodoChanged()
+            ? '수정하기'
+            : '완료하기';
   }
 }
