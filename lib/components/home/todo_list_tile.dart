@@ -7,14 +7,15 @@ import 'package:flutter/material.dart';
 
 class TodoListTile extends StatelessWidget {
   final Todo todo;
-  const TodoListTile({super.key, required this.todo});
+  final Function() onTapTodo;
+  const TodoListTile({super.key, required this.todo, required this.onTapTodo});
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () {},
+        onTap: onTapTodo,
         child: Container(
           width: double.infinity,
           height: 48,

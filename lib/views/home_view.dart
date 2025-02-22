@@ -82,7 +82,10 @@ class HomeView extends StatelessWidget {
                     const SizedBox(height: 24),
 
                     // 할 일 목록
-                    TodoList(todos: homeViewModel.todoModel.todos),
+                    TodoList(
+                      todos: homeViewModel.todoModel.todos,
+                      onTapTodo: homeViewModel.onTapTodo,
+                    ),
                   ],
                 ),
 

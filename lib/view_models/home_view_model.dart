@@ -1,3 +1,4 @@
+import 'package:chagok/models/todo.dart';
 import 'package:chagok/models/todo_model.dart';
 import 'package:chagok/utils/date_time.dart';
 import 'package:chagok/utils/enums/app_route.dart';
@@ -54,6 +55,13 @@ class HomeViewModel with ChangeNotifier {
   void onTapDateTile(int index) {
     todoModel.selectedDate = todoModel.selectedWeek[index];
     notifyListeners();
+  }
+
+  /// Todo 선택
+  void onTapTodo(Todo todo) {
+    // Todo 선택
+    todoModel.selectTodo(todo);
+    context.goNamed(AppRoute.add.name);
   }
 
   /// FAB 클릭시 Todo 추가 페이지 이동

@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 
 class TodoList extends StatelessWidget {
   final List<Todo> todos;
-  const TodoList({super.key, required this.todos});
+  final Function(Todo) onTapTodo;
+  const TodoList({super.key, required this.todos, required this.onTapTodo});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,7 @@ class TodoList extends StatelessWidget {
           physics: const ClampingScrollPhysics(),
           itemBuilder: (_, index) => TodoListTile(
             todo: todos[index],
+            onTapTodo: () => onTapTodo(todos[index]),
           ),
           separatorBuilder: (_, __) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),

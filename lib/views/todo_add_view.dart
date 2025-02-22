@@ -15,7 +15,8 @@ class TodoAddView extends StatelessWidget {
     final TodoAddViewModel todoAddViewModel = context.watch<TodoAddViewModel>();
 
     return CustomScaffold(
-      title: '등록하기',
+      title:
+          todoAddViewModel.todoModel.selectedTodo == null ? '새 일정 등록' : '일정 확인',
       showBackBtn: true,
       resizeToAvoidBottomInset: false,
       body: Column(
@@ -30,6 +31,7 @@ class TodoAddView extends StatelessWidget {
             ),
             child: Center(
               child: TextFormField(
+                controller: todoAddViewModel.todoModel.title,
                 style: Palette.title,
                 scrollPhysics: const NeverScrollableScrollPhysics(),
                 decoration: InputDecoration(
@@ -57,6 +59,7 @@ class TodoAddView extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: TextFormField(
+              controller: todoAddViewModel.todoModel.memo,
               style: Palette.body,
               scrollPhysics: const NeverScrollableScrollPhysics(),
               decoration: InputDecoration(

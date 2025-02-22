@@ -57,6 +57,9 @@ class TodoModel with ChangeNotifier {
   /// 감정
   Emotion emotion = Emotion.happy;
 
+  /// 선택된 Todo 오브젝트
+  Todo? selectedTodo;
+
   TodoModel() {
     // 모델이 처음 생성될 때 오늘이 포함된 주차 계산
     getSelectedWeek();
@@ -64,10 +67,20 @@ class TodoModel with ChangeNotifier {
 
   /// Todo 등록 변수 초기화
   void resetAddTodo() {
+    selectedTodo = null;
     title.clear();
     memo.clear();
     time = null;
     emotion = Emotion.happy;
+  }
+
+  /// Todo 수정시 변수를 선택된 Todo로 동기화
+  void selectTodo(Todo todo) {
+    selectedTodo = todo;
+    title.text = todo.title;
+    memo.text = todo.memo ?? '';
+    time = todo.time;
+    emotion = todo.emotion;
   }
 
   /// 선택된 날짜가 포함된 주의 날짜를 반환
