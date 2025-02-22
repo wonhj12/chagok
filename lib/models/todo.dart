@@ -11,6 +11,9 @@ class Todo {
   /// 간단한 설명
   final String? memo;
 
+  /// 일정 등록 날짜
+  final DateTime date;
+
   /// 시간
   final TimeOfDay? time;
 
@@ -24,6 +27,7 @@ class Todo {
     required this.id,
     required this.title,
     this.memo,
+    required this.date,
     this.time,
     required this.emotion,
     required this.isCompleted,
@@ -36,6 +40,7 @@ class Todo {
       id: json['id'],
       title: json['title'],
       memo: json['memo'],
+      date: DateTime.fromMillisecondsSinceEpoch(json['date']),
       time: time != null
           ? TimeOfDay(hour: int.parse(time[0]), minute: int.parse(time[1]))
           : null,
