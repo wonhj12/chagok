@@ -15,6 +15,9 @@ class CustomScaffold extends StatelessWidget {
   /// 로딩 중 여부
   final bool isLoading;
 
+  /// 상단 패딩 값
+  final bool topPadding;
+
   /// body 위젯
   final Widget? body;
 
@@ -32,6 +35,7 @@ class CustomScaffold extends StatelessWidget {
     this.showBackBtn = false,
     this.resizeToAvoidBottomInset,
     this.isLoading = false,
+    this.topPadding = false,
     this.body,
     this.floatingActionButton,
     this.bottomNavigationBar,
@@ -59,7 +63,7 @@ class CustomScaffold extends StatelessWidget {
             children: [
               // body
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.fromLTRB(20, topPadding ? 20 : 0, 20, 0),
                 child: body,
               ),
 
