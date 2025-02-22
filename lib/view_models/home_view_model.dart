@@ -52,11 +52,16 @@ class HomeViewModel with ChangeNotifier {
 
     // 달력 닫기
     showCalendar = false;
+
+    // 일정 불러오기 위한 isLoading 활성화
+    isLoading = true;
     notifyListeners();
 
     // 일정 서버에서 가져오기
     // 달력을 닫은 후 일정 불러오기 진행
     await todoModel.getTodos();
+
+    isLoading = false;
     notifyListeners();
   }
 
