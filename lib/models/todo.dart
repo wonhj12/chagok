@@ -2,6 +2,9 @@ import 'package:chagok/utils/enums/emotion.dart';
 import 'package:flutter/material.dart';
 
 class Todo {
+  /// id
+  final int id;
+
   /// 제목
   final String title;
 
@@ -18,6 +21,7 @@ class Todo {
   final bool isCompleted;
 
   Todo({
+    required this.id,
     required this.title,
     this.memo,
     this.time,
@@ -29,6 +33,7 @@ class Todo {
   factory Todo.fromJson(Map<String, dynamic> json) {
     List<String>? time = json['time']?.split(':');
     return Todo(
+      id: json['id'],
       title: json['title'],
       memo: json['memo'],
       time: time != null

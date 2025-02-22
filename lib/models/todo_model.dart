@@ -11,28 +11,33 @@ class TodoModel with ChangeNotifier {
   /// 선택된 날짜의 todo 리스트
   List<Todo> todos = [
     Todo(
+      id: 0,
       title: '테스트 1',
       emotion: Emotion.happy,
       time: TimeOfDay(hour: 9, minute: 0),
       isCompleted: true,
     ),
     Todo(
+      id: 1,
       title: '테스트 2',
       emotion: Emotion.longing,
       isCompleted: false,
     ),
     Todo(
+      id: 2,
       title: '테스트 3',
       emotion: Emotion.soso,
       isCompleted: false,
     ),
     Todo(
+      id: 3,
       title: '테스트 4',
       emotion: Emotion.sad,
       time: TimeOfDay(hour: 13, minute: 30),
       isCompleted: false,
     ),
     Todo(
+      id: 4,
       title: '테스트 5',
       emotion: Emotion.hate,
       isCompleted: false,
@@ -57,7 +62,8 @@ class TodoModel with ChangeNotifier {
     getSelectedWeek();
   }
 
-  void resetCurrentTodo() {
+  /// Todo 등록 변수 초기화
+  void resetAddTodo() {
     title.clear();
     memo.clear();
     time = null;
