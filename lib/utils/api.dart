@@ -8,10 +8,10 @@ class API {
     // 선택된 날짜가 포함된 주의 일요일, 토요일 값 반환
     // 일요일
     DateTime sunday = DateTime(date.year, date.month, date.day)
-        .subtract(Duration(days: date.weekday));
+        .subtract(Duration(days: date.weekday % 7));
     // 토요일
     DateTime saturday = DateTime(date.year, date.month, date.day)
-        .subtract(Duration(days: date.weekday))
+        .subtract(Duration(days: date.weekday % 7))
         .add(Duration(
             days: 6, hours: 23, minutes: 59, seconds: 59, milliseconds: 999));
 
@@ -34,7 +34,6 @@ class API {
     if (response.isEmpty) {
       return todos;
     }
-
     // 요일에 맞춰서 배열에 일정 추가
     for (Map<String, dynamic> todo in response) {
       // 저장된 date를 int로 받고 DateTime으로 변환

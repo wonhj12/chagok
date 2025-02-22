@@ -63,7 +63,7 @@ class TodoModel with ChangeNotifier {
   Future<void> getTodos() async {
     resetTodos();
     todos = await API().getTodos(selectedDate);
-    selectedTodos = todos[selectedDate.weekday];
+    selectedTodos = todos[selectedDate.weekday % 7];
   }
 
   /// 일정 수정시 변수를 선택된 Todo로 동기화
