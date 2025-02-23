@@ -14,7 +14,7 @@ String weekdayToString(int weekday) {
   return weekdays[weekday - 1];
 }
 
-/// `TimeOfDay`를 `HH:mm` 형식으로 변환
+/// `TimeOfDay`를 `a HH:mm` 형식으로 변환
 String timeOfDayToString(TimeOfDay timeOfDay) {
   return '${[
     '오전',
