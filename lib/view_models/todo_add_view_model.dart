@@ -89,7 +89,9 @@ class TodoAddViewModel with ChangeNotifier {
         ? '등록하기'
         : todoModel.isTodoChanged()
             ? '수정하기'
-            : '완료하기';
+            : todoModel.selectedTodo!.isCompleted
+                ? '미완료로 변경하기'
+                : '완료하기';
   }
 
   /// 일정 등록
@@ -115,7 +117,6 @@ class TodoAddViewModel with ChangeNotifier {
       todoModel.addTodo(todo);
     } else if (todoModel.isTodoChanged()) {
       // 일정 수정
-
       // db 업데이트
       final bool response = await API().patchTodo(
         todoModel.selectedTodo!.id,
@@ -137,6 +138,18 @@ class TodoAddViewModel with ChangeNotifier {
           time: todoModel.time,
           emotion: todoModel.emotion,
         );
+      }
+    } else {
+      // 완료, 미완료 상태 변경
+      final bool response = await API().patchTodo(
+        todoModel.selectedTodo!.id,
+        {'isCompleted': !todoModel.selectedTodo!.isCompleted},
+      );
+
+      // db에 반영이 됐으면 TodoModel에도 반영
+      if (response) {
+        todoModel.selectedTodo!
+            .updateTodo(isCompleted: !todoModel.selectedTodo!.isCompleted);
       }
     }
 
