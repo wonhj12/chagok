@@ -68,4 +68,19 @@ class API {
       throw ErrorDescription('Failed to post Todo: $e');
     }
   }
+
+  /// 일정을 수정하는 patch 요청
+  /// <br /> 수정이 정상적으로 이루어졌으면 `true` 반환
+  Future<bool> patchTodo(int id, Map<String, dynamic> jsonData) async {
+    try {
+      // 일정 업데이트
+      await supabase.from('todo').update(jsonData).eq('id', id);
+
+      debugPrint('patchTodo completed');
+
+      return true;
+    } catch (e) {
+      throw ErrorDescription('Failed to patch Todo: $e');
+    }
+  }
 }
