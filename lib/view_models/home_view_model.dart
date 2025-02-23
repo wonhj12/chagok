@@ -81,10 +81,11 @@ class HomeViewModel with ChangeNotifier {
   }
 
   /// Todo 선택
-  void onTapTodo(Todo todo) {
+  void onTapTodo(Todo todo) async {
     // Todo 선택
     todoModel.selectTodo(todo);
-    context.goNamed(AppRoute.add.name);
+    await context.pushNamed(AppRoute.add.name);
+    notifyListeners();
   }
 
   /// FAB 클릭시 Todo 추가 페이지 이동

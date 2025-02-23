@@ -6,22 +6,22 @@ class Todo {
   final int id;
 
   /// 제목
-  final String title;
+  String title;
 
   /// 간단한 설명
-  final String? memo;
+  String? memo;
 
   /// 일정 등록 날짜
-  final DateTime date;
+  DateTime date;
 
   /// 시간
-  final TimeOfDay? time;
+  TimeOfDay? time;
 
   /// 감정
-  final Emotion emotion;
+  Emotion emotion;
 
   /// 완료 여부
-  final bool isCompleted;
+  bool isCompleted;
 
   Todo({
     required this.id,
@@ -57,7 +57,25 @@ class Todo {
       'date': date.millisecondsSinceEpoch,
       'time': time,
       'emotion': emotion.name,
-      'isCompeted': isCompleted,
+      'isCompleted': isCompleted,
     };
+  }
+
+  /// Todo 수정
+  void updateTodo({
+    String? title,
+    String? memo,
+    DateTime? date,
+    TimeOfDay? time,
+    Emotion? emotion,
+    bool? isCompleted,
+  }) {
+    // 주어진 값이 있으면 수정, 없으면 기존 데이터 그대로 유지
+    this.title = title ?? this.title;
+    this.memo = memo ?? this.memo;
+    this.date = date ?? this.date;
+    this.time = time ?? this.time;
+    this.emotion = emotion ?? this.emotion;
+    this.isCompleted = isCompleted ?? this.isCompleted;
   }
 }
