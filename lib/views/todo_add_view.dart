@@ -29,7 +29,7 @@ class TodoAddView extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
-              child: TextFormField(
+              child: TextField(
                 controller: todoAddViewModel.todoModel.title,
                 style: Palette.title,
                 scrollPhysics: const NeverScrollableScrollPhysics(),
@@ -45,10 +45,20 @@ class TodoAddView extends StatelessWidget {
                 maxLength: 12,
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.next,
-                onChanged: (_) => todoAddViewModel.onChangedText(),
+                onChanged: (_) => todoAddViewModel.onChangedTitleText(),
               ),
             ),
           ),
+
+          // 에러 텍스트
+          if (todoAddViewModel.titleErrorText != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 20, top: 8),
+              child: Text(
+                todoAddViewModel.titleErrorText!,
+                style: Palette.caption.copyWith(color: Palette.error),
+              ),
+            ),
           const SizedBox(height: 24),
 
           // 메모
@@ -58,7 +68,7 @@ class TodoAddView extends StatelessWidget {
               color: Palette.container,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: TextFormField(
+            child: TextField(
               controller: todoAddViewModel.todoModel.memo,
               style: Palette.body,
               scrollPhysics: const NeverScrollableScrollPhysics(),
@@ -92,7 +102,7 @@ class TodoAddView extends StatelessWidget {
                   ),
                 );
               },
-              onChanged: (_) => todoAddViewModel.onChangedText(),
+              onChanged: (_) => todoAddViewModel.onChangedMemoText(),
             ),
           ),
           const SizedBox(height: 24),

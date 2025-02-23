@@ -16,6 +16,8 @@ class TodoAddViewModel with ChangeNotifier {
   /// 페이지 로딩 상태
   bool isLoading = false;
 
+  String? titleErrorText;
+
   /// AppBar 타이틀 텍스트
   String titleText() => todoModel.selectedTodo == null ? '새 일정 등록' : '일정 확인';
 
@@ -30,8 +32,14 @@ class TodoAddViewModel with ChangeNotifier {
     }
   }
 
-  /// 텍스트 수정
-  void onChangedText() {
+  /// 제목 텍스트 수정
+  void onChangedTitleText() {
+    titleErrorText = null;
+    notifyListeners();
+  }
+
+  /// 메모 텍스트 수정
+  void onChangedMemoText() {
     notifyListeners();
   }
 
@@ -96,66 +104,73 @@ class TodoAddViewModel with ChangeNotifier {
 
   /// 일정 등록
   void onPressedAddBtn() async {
-    isLoading = true;
-    notifyListeners();
+    if (todoModel.title.text.trim().isNotEmpty) {
+      // 필수 항목(제목)이 모두 입력 됐으면 진행
+      titleErrorText = null;
+      isLoading = true;
+      notifyListeners();
 
-    if (todoModel.selectedTodo == null) {
-      // 새 일정 등록
-      // db에 새 일정 등록
-      final Todo todo = await API().postTodo({
-        'title': todoModel.title.text.trim(),
-        'memo': todoModel.memo.text.trim(),
-        'date': todoModel.selectedDate.millisecondsSinceEpoch,
-        'time': todoModel.time != null
-            ? '${todoModel.time!.hour}:${todoModel.time!.minute}:00'
-            : null,
-        'emotion': todoModel.emotion.name,
-        'isCompleted': false,
-      });
-
-      // 모델에 등록한 일정 추가
-      todoModel.addTodo(todo);
-    } else if (todoModel.isTodoChanged()) {
-      // 일정 수정
-      // db 업데이트
-      final bool response = await API().patchTodo(
-        todoModel.selectedTodo!.id,
-        {
+      if (todoModel.selectedTodo == null) {
+        // 새 일정 등록
+        // db에 새 일정 등록
+        final Todo todo = await API().postTodo({
           'title': todoModel.title.text.trim(),
           'memo': todoModel.memo.text.trim(),
+          'date': todoModel.selectedDate.millisecondsSinceEpoch,
           'time': todoModel.time != null
               ? '${todoModel.time!.hour}:${todoModel.time!.minute}:00'
               : null,
           'emotion': todoModel.emotion.name,
-        },
-      );
+          'isCompleted': false,
+        });
 
-      // db에 반영이 됐으면 TodoModel에도 반영
-      if (response) {
-        todoModel.selectedTodo!.updateTodo(
-          title: todoModel.title.text.trim(),
-          memo: todoModel.memo.text.trim(),
-          time: todoModel.time,
-          emotion: todoModel.emotion,
+        // 모델에 등록한 일정 추가
+        todoModel.addTodo(todo);
+      } else if (todoModel.isTodoChanged()) {
+        // 일정 수정
+        // db 업데이트
+        final bool response = await API().patchTodo(
+          todoModel.selectedTodo!.id,
+          {
+            'title': todoModel.title.text.trim(),
+            'memo': todoModel.memo.text.trim(),
+            'time': todoModel.time != null
+                ? '${todoModel.time!.hour}:${todoModel.time!.minute}:00'
+                : null,
+            'emotion': todoModel.emotion.name,
+          },
         );
+
+        // db에 반영이 됐으면 TodoModel에도 반영
+        if (response) {
+          todoModel.selectedTodo!.updateTodo(
+            title: todoModel.title.text.trim(),
+            memo: todoModel.memo.text.trim(),
+            time: todoModel.time,
+            emotion: todoModel.emotion,
+          );
+        }
+      } else {
+        // 완료, 미완료 상태 변경
+        final bool response = await API().patchTodo(
+          todoModel.selectedTodo!.id,
+          {'isCompleted': !todoModel.selectedTodo!.isCompleted},
+        );
+
+        // db에 반영이 됐으면 TodoModel에도 반영
+        if (response) {
+          todoModel.selectedTodo!
+              .updateTodo(isCompleted: !todoModel.selectedTodo!.isCompleted);
+        }
       }
+
+      isLoading = false;
+      notifyListeners();
+
+      context.pop();
     } else {
-      // 완료, 미완료 상태 변경
-      final bool response = await API().patchTodo(
-        todoModel.selectedTodo!.id,
-        {'isCompleted': !todoModel.selectedTodo!.isCompleted},
-      );
-
-      // db에 반영이 됐으면 TodoModel에도 반영
-      if (response) {
-        todoModel.selectedTodo!
-            .updateTodo(isCompleted: !todoModel.selectedTodo!.isCompleted);
-      }
+      titleErrorText = '제목을 입력하세요.';
+      notifyListeners();
     }
-
-    isLoading = false;
-    notifyListeners();
-
-    context.pop();
   }
 }
