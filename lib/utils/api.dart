@@ -37,6 +37,7 @@ class API {
     if (response.isEmpty) {
       return todos;
     }
+
     // 요일에 맞춰서 배열에 일정 추가
     for (Map<String, dynamic> todo in response) {
       // 저장된 date를 int로 받고 DateTime으로 변환
@@ -44,7 +45,7 @@ class API {
       DateTime todoDate = DateTime.fromMillisecondsSinceEpoch(milliseconds);
 
       // 요일에 맞춰 추가
-      int index = todoDate.weekday;
+      int index = todoDate.weekday % 7;
       todos[index].add(Todo.fromJson(todo));
     }
 
