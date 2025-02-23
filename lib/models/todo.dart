@@ -48,4 +48,16 @@ class Todo {
       isCompleted: json['isCompleted'],
     );
   }
+
+  /// Todo 오브젝트를 json으로 변환
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'memo': memo,
+      'date': date.millisecondsSinceEpoch,
+      'time': time,
+      'emotion': emotion.name,
+      'isCompeted': isCompleted,
+    };
+  }
 }
