@@ -59,6 +59,11 @@ class TodoModel with ChangeNotifier {
     emotion = Emotion.happy;
   }
 
+  /// 리스트에 새로운 일정 추가하기
+  void addTodo(Todo todo) {
+    todos[selectedDate.weekday % 7].add(todo);
+  }
+
   /// 서버에서 일정 가져오기
   Future<void> getTodos() async {
     resetTodos();

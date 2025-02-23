@@ -199,7 +199,7 @@ class TodoAddView extends StatelessWidget {
             width: double.infinity,
             height: 60,
             child: FilledButton(
-              onPressed: () {},
+              onPressed: todoAddViewModel.onPressedAddBtn,
               style: FilledButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),

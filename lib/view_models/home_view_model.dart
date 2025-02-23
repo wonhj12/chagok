@@ -88,8 +88,9 @@ class HomeViewModel with ChangeNotifier {
   }
 
   /// FAB 클릭시 Todo 추가 페이지 이동
-  void onPressedFAB() {
+  void onPressedFAB() async {
     todoModel.resetAddTodo();
-    context.goNamed(AppRoute.add.name);
+    await context.pushNamed(AppRoute.add.name);
+    notifyListeners();
   }
 }

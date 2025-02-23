@@ -1,14 +1,20 @@
+import 'package:chagok/models/todo.dart';
 import 'package:chagok/models/todo_model.dart';
+import 'package:chagok/utils/api.dart';
 import 'package:chagok/utils/date_time.dart';
 import 'package:chagok/utils/enums/emotion.dart';
 import 'package:chagok/utils/palette.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class TodoAddViewModel with ChangeNotifier {
   TodoModel todoModel;
   BuildContext context;
   TodoAddViewModel({required this.todoModel, required this.context});
+
+  /// 페이지 로딩 상태
+  bool isLoading = false;
 
   /// AppBar 타이틀 텍스트
   String titleText() => todoModel.selectedTodo == null ? '새 일정 등록' : '일정 확인';
@@ -84,5 +90,31 @@ class TodoAddViewModel with ChangeNotifier {
         : todoModel.isTodoChanged()
             ? '수정하기'
             : '완료하기';
+  }
+
+  /// 일정 등록
+  void onPressedAddBtn() async {
+    isLoading = true;
+    notifyListeners();
+
+    // db에 새 일정 등록
+    final Todo todo = await API().postTodo({
+      'title': todoModel.title.text.trim(),
+      'memo': todoModel.memo.text.trim(),
+      'date': todoModel.selectedDate.millisecondsSinceEpoch,
+      'time': todoModel.time != null
+          ? '${todoModel.time!.hour}:${todoModel.time!.minute}:00'
+          : null,
+      'emotion': todoModel.emotion.name,
+      'isCompleted': false,
+    });
+
+    // 모델에 등록한 일정 추가
+    todoModel.addTodo(todo);
+
+    isLoading = false;
+    notifyListeners();
+
+    context.pop();
   }
 }
