@@ -1,9 +1,12 @@
 import 'package:chagok/models/todo.dart';
+import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class API {
   final SupabaseClient supabase = Supabase.instance.client;
 
+  /// 주어진 날짜가 포함된 주의 일정을 가져오는 get 요청
+  /// <br /> 요일에 맞춰 길이 7의 배열로 반환
   Future<List<List<Todo>>> getTodos(DateTime date) async {
     // 선택된 날짜가 포함된 주의 일요일, 토요일 값 반환
     // 일요일
@@ -45,6 +48,24 @@ class API {
       todos[index].add(Todo.fromJson(todo));
     }
 
+    debugPrint('getTodo completed: fetched ${response.length} todos');
+
     return todos;
+  }
+
+  /// 일정을 db에 등록하는 post 요청
+  /// <br /> 등록 후 등록한 일정을 반환
+  Future<Todo> postTodo(Map<String, dynamic> jsonData) async {
+    try {
+      // db에 새 일정 등록
+      final Map<String, dynamic> response =
+          await supabase.from('todo').insert(jsonData).select().single();
+
+      debugPrint('postTodo completed');
+
+      return Todo.fromJson(response);
+    } catch (e) {
+      throw ErrorDescription('Failed to post Todo: $e');
+    }
   }
 }
