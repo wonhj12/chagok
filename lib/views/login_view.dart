@@ -16,7 +16,13 @@ class LoginView extends StatelessWidget {
       isLoading: loginViewModel.isLoading,
       body: Column(
         children: [
-          const Spacer(),
+          Expanded(
+            child: Image.asset(
+              width: 256,
+              height: 256,
+              'assets/icons/sunglass.png',
+            ),
+          ),
 
           // 카카오톡 로그인
           LoginButton(
