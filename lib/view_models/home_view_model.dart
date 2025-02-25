@@ -5,6 +5,7 @@ import 'package:chagok/utils/date_time.dart';
 import 'package:chagok/utils/enums/app_route.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeViewModel with ChangeNotifier {
   final TodoModel todoModel;
@@ -18,6 +19,8 @@ class HomeViewModel with ChangeNotifier {
 
   /// 달력 표시 상태
   bool showCalendar = false;
+
+  final GlobalKey weekdayKey = GlobalKey();
 
   /// 초기화
   void initialize() async {
@@ -36,6 +39,67 @@ class HomeViewModel with ChangeNotifier {
 
   /// 선택된 날짜의 연도를 반환
   String getYear() => '${todoModel.selectedDate.year}';
+
+  /// 요일 longPress시 메뉴 표시
+  void onLongPressWeekday(LongPressStartDetails details) {
+    // 요일 텍스트 RenderBox
+    final RenderBox? renderBox =
+        weekdayKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox == null) return;
+
+    // 텍스트 위젯의 전역 좌표와 크기
+    final Offset offset = renderBox.localToGlobal(Offset.zero);
+    final Size size = renderBox.size;
+
+    // 텍스트의 하단 위치 계산
+    // 텍스트 위젯의 좌측 하단 좌표
+    final Offset menuPosition = Offset(offset.dx, offset.dy + size.height);
+
+    // 화면 크기 계산
+    final screenSize = MediaQuery.of(context).size;
+
+    showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        menuPosition.dx,
+        menuPosition.dy,
+        screenSize.width - menuPosition.dx,
+        screenSize.height - menuPosition.dy,
+      ),
+      menuPadding: EdgeInsets.zero,
+      clipBehavior: Clip.hardEdge,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      items: [
+        PopupMenuItem(
+          onTap: logout,
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.logout_rounded),
+              const SizedBox(width: 16),
+              Text('로그아웃'),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// 로그아웃
+  void logout() async {
+    final SupabaseClient supabase = Supabase.instance.client;
+
+    isLoading = true;
+    notifyListeners();
+
+    await supabase.auth.signOut();
+    context.goNamed(AppRoute.login.name);
+
+    isLoading = false;
+    notifyListeners();
+  }
 
   /// 달력 표시 여부 변경
   void onTapToggleCalendar() {

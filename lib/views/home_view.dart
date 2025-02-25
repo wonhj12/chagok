@@ -25,9 +25,13 @@ class HomeView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // 요일
-              Text(
-                homeViewModel.getWeekDay(),
-                style: Palette.largeTitleSemibold,
+              GestureDetector(
+                key: homeViewModel.weekdayKey,
+                onLongPressStart: homeViewModel.onLongPressWeekday,
+                child: Text(
+                  homeViewModel.getWeekDay(),
+                  style: Palette.largeTitleSemibold,
+                ),
               ),
 
               // 날짜
