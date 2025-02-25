@@ -84,4 +84,18 @@ class API {
       throw ErrorDescription('Failed to patch Todo: $e');
     }
   }
+
+  /// 일정을 지우는 delete 요청
+  /// <br /> 삭제가 정상적으로 이루어졌으면 `true` 반환
+  Future<bool> deleteTodo(int id) async {
+    try {
+      await supabase.from('todo').delete().eq('id', id);
+
+      debugPrint('deleteTodo completed');
+
+      return true;
+    } catch (e) {
+      throw ErrorDescription('Failed to delete Todo: $e');
+    }
+  }
 }
