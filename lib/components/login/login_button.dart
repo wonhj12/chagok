@@ -17,30 +17,35 @@ class LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        height: 48,
-        padding: EdgeInsets.symmetric(horizontal: 20),
+    return Material(
+      child: Ink(
         decoration: BoxDecoration(
           color: background,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SvgPicture.asset(
-              'assets/icons/$icon',
-              width: 20,
-              height: 20,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(10),
+          child: Container(
+            width: double.infinity,
+            height: 48,
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/$icon',
+                  width: 20,
+                  height: 20,
+                ),
+                Text(
+                  text,
+                  style: Palette.callout.copyWith(fontWeight: FontWeight.w500),
+                ),
+                SizedBox(width: 20)
+              ],
             ),
-            Text(
-              text,
-              style: Palette.callout.copyWith(fontWeight: FontWeight.w500),
-            ),
-            SizedBox(width: 20)
-          ],
+          ),
         ),
       ),
     );
