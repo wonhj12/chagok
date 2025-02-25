@@ -64,6 +64,14 @@ class TodoModel with ChangeNotifier {
     todos[selectedDate.weekday % 7].add(todo);
   }
 
+  /// 리스트에서 일정 제거
+  Future<void> removeTodo(int index) async {
+    final bool response = await API().deleteTodo(selectedTodos[index].id);
+
+    // selectedTodos에서 지우면 todos에도 지워짐
+    if (response) selectedTodos.removeAt(index);
+  }
+
   /// 서버에서 일정 가져오기
   Future<void> getTodos() async {
     resetTodos();

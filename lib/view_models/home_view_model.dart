@@ -88,6 +88,13 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Todo 좌우 스와이프
+  void onDismissedTodo(int index) async {
+    // 일정 제거
+    await todoModel.removeTodo(index);
+    notifyListeners();
+  }
+
   /// FAB 클릭시 Todo 추가 페이지 이동
   void onPressedFAB() async {
     todoModel.resetAddTodo();
