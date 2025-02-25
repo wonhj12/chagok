@@ -47,9 +47,10 @@ class LoginView extends StatelessWidget {
             icon: 'logo_apple.svg',
             text: 'Apple로 시작하기',
             background: Palette.container,
-            onTap: () {},
+            onTap: loginViewModel.signInWithApple,
           ),
-          const SizedBox(height: 128),
+
+          const SizedBox(height: 64),
         ],
       ),
     );

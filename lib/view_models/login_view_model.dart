@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:chagok/utils/enums/app_route.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart' as kakao;
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginViewModel with ChangeNotifier {
@@ -90,6 +94,48 @@ class LoginViewModel with ChangeNotifier {
       provider: OAuthProvider.google,
       idToken: idToken,
       accessToken: accessToken,
+    );
+
+    isLoading = false;
+    notifyListeners();
+
+    // 홈 화면 이동
+    context.goNamed(AppRoute.home.name);
+  }
+
+  /// Apple 로그인
+  void signInWithApple() async {
+    isLoading = true;
+    notifyListeners();
+
+    // 애플 로그인을 위한 nonce 생성
+    final String rawNonce = supabase.auth.generateRawNonce();
+    final String hashedNonce = sha256.convert(utf8.encode(rawNonce)).toString();
+
+    // 애플 로그인
+    final AuthorizationCredentialAppleID credential =
+        await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+      nonce: hashedNonce,
+    );
+
+    final String? idToken = credential.identityToken;
+
+    // 애플 로그인이 정상적으로 되지 않으면 오류 반환
+    if (idToken == null) {
+      isLoading = false;
+      notifyListeners();
+
+      throw ErrorDescription('Apple login failed: Token not found');
+    }
+
+    await supabase.auth.signInWithIdToken(
+      provider: OAuthProvider.apple,
+      idToken: idToken,
+      nonce: rawNonce,
     );
 
     isLoading = false;
