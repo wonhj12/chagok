@@ -7,7 +7,13 @@ import 'package:flutter/material.dart';
 class TodoList extends StatelessWidget {
   final List<Todo> todos;
   final Function(Todo) onTapTodo;
-  const TodoList({super.key, required this.todos, required this.onTapTodo});
+  final void Function(int) onDismissed;
+  const TodoList({
+    super.key,
+    required this.todos,
+    required this.onTapTodo,
+    required this.onDismissed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +32,7 @@ class TodoList extends StatelessWidget {
                 itemBuilder: (_, index) => TodoListTile(
                   todo: todos[index],
                   onTapTodo: () => onTapTodo(todos[index]),
+                  onDismissed: () => onDismissed(index),
                 ),
                 separatorBuilder: (_, __) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
