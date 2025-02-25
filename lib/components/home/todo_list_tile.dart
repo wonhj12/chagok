@@ -10,11 +10,13 @@ class TodoListTile extends StatelessWidget {
   final Todo todo;
   final Function() onTapTodo;
   final void Function() onDismissed;
+  final void Function() onPressedComplete;
   const TodoListTile({
     super.key,
     required this.todo,
     required this.onTapTodo,
     required this.onDismissed,
+    required this.onPressedComplete,
   });
 
   @override
@@ -26,10 +28,10 @@ class TodoListTile extends StatelessWidget {
         extentRatio: 0.25,
         children: [
           SlidableAction(
-            onPressed: (_) {},
-            backgroundColor: Palette.success,
+            onPressed: (_) => onPressedComplete(),
+            backgroundColor: todo.isCompleted ? Palette.error : Palette.success,
             foregroundColor: Palette.surface,
-            label: '완료',
+            label: todo.isCompleted ? '미완료' : '완료',
           )
         ],
       ),

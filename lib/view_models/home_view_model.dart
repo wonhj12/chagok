@@ -1,5 +1,6 @@
 import 'package:chagok/models/todo.dart';
 import 'package:chagok/models/todo_model.dart';
+import 'package:chagok/utils/api.dart';
 import 'package:chagok/utils/date_time.dart';
 import 'package:chagok/utils/enums/app_route.dart';
 import 'package:flutter/material.dart';
@@ -88,10 +89,29 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  /// Todo 좌우 스와이프
+  /// Todo 우 -> 좌 스와이프 (삭제)
   void onDismissedTodo(int index) async {
     // 일정 제거
     await todoModel.removeTodo(index);
+    notifyListeners();
+  }
+
+  /// Todo 좌 -> 우 스와이프 (완료)
+  void onCompleteTodo(int index) async {
+    // 업데이트할 일정 선택
+    final Todo todo = todoModel.selectedTodos[index];
+
+    // 완료, 미완료 상태 변경
+    final bool response = await API().patchTodo(
+      todo.id,
+      {'isCompleted': !todo.isCompleted},
+    );
+
+    // db에 반영이 됐으면 TodoModel에도 반영
+    if (response) {
+      todo.updateTodo(isCompleted: !todo.isCompleted);
+    }
+
     notifyListeners();
   }
 

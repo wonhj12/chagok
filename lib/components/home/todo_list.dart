@@ -8,11 +8,13 @@ class TodoList extends StatelessWidget {
   final List<Todo> todos;
   final Function(Todo) onTapTodo;
   final void Function(int) onDismissed;
+  final void Function(int) onPressedComplete;
   const TodoList({
     super.key,
     required this.todos,
     required this.onTapTodo,
     required this.onDismissed,
+    required this.onPressedComplete,
   });
 
   @override
@@ -33,6 +35,7 @@ class TodoList extends StatelessWidget {
                   todo: todos[index],
                   onTapTodo: () => onTapTodo(todos[index]),
                   onDismissed: () => onDismissed(index),
+                  onPressedComplete: () => onPressedComplete(index),
                 ),
                 separatorBuilder: (_, __) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
