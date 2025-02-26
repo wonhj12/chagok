@@ -27,13 +27,10 @@ class DateTile extends StatelessWidget {
         HapticFeedback.lightImpact();
         onTap();
       },
-      child: Container(
+      behavior: HitTestBehavior.opaque,
+      child: SizedBox(
         width: 48,
         height: 64,
-        decoration: BoxDecoration(
-          color: isSelected ? Palette.primary : Colors.transparent,
-          borderRadius: BorderRadius.circular(16),
-        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
