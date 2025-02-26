@@ -3,6 +3,7 @@ import 'package:chagok/models/todo_model.dart';
 import 'package:chagok/utils/api.dart';
 import 'package:chagok/utils/date_time.dart';
 import 'package:chagok/utils/enums/app_route.dart';
+import 'package:chagok/utils/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -84,15 +85,12 @@ class HomeViewModel with ChangeNotifier {
         PopupMenuItem(
           onTap: logout,
           padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.logout_rounded),
-              const SizedBox(width: 16),
-              Text('로그아웃'),
-            ],
-          ),
+          child: Text('로그아웃', style: Palette.callout),
+        ),
+        PopupMenuItem(
+          onTap: deleteUser,
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Text('회원 탈퇴', style: Palette.callout),
         ),
       ],
     );
@@ -106,10 +104,32 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
 
     await supabase.auth.signOut();
-    context.goNamed(AppRoute.login.name);
 
     isLoading = false;
     notifyListeners();
+
+    context.goNamed(AppRoute.login.name);
+  }
+
+  /// 회원 탈퇴
+  void deleteUser() async {
+    final SupabaseClient supabase = Supabase.instance.client;
+
+    isLoading = true;
+    notifyListeners();
+
+    // 회원 삭제
+    await supabase.functions.invoke('delete-user', headers: {
+      'Authorization': 'Bearer ${supabase.auth.currentSession?.accessToken}'
+    });
+    debugPrint('Deleted user');
+
+    await supabase.auth.signOut();
+
+    isLoading = false;
+    notifyListeners();
+
+    context.goNamed(AppRoute.login.name);
   }
 
   /// 달력 표시 여부 변경
