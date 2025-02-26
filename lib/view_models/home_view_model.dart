@@ -32,8 +32,10 @@ class HomeViewModel with ChangeNotifier {
 
   /// 화면 탭 로직
   void onTap() {
-    showCalendar = false;
-    notifyListeners();
+    if (showCalendar) {
+      showCalendar = false;
+      notifyListeners();
+    }
   }
 
   /// 선택된 날짜의 요일 반환
