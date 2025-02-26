@@ -17,6 +17,7 @@ class HomeView extends StatelessWidget {
     return CustomScaffold(
       isLoading: homeViewModel.isLoading,
       topPadding: true,
+      onTap: homeViewModel.onTap,
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

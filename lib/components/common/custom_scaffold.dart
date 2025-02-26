@@ -27,6 +27,9 @@ class CustomScaffold extends StatelessWidget {
   /// 네비게이션 바
   final Widget? bottomNavigationBar;
 
+  /// 화면 탭
+  final Function()? onTap;
+
   /// ### Padding, margin 등 공통 설정 값이 적용된 Scaffold
   /// 좌우 padding: 20px
   const CustomScaffold({
@@ -39,12 +42,16 @@ class CustomScaffold extends StatelessWidget {
     this.body,
     this.floatingActionButton,
     this.bottomNavigationBar,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        onTap?.call();
+      },
       child: Scaffold(
         appBar: title != null
             ? AppBar(
