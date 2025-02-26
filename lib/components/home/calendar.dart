@@ -1,12 +1,13 @@
 import 'package:chagok/utils/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Calendar extends StatelessWidget {
   /// 초기 선택 날짜
   final DateTime focusedDay;
 
-  final Function(DateTime, DateTime)? onDaySelected;
+  final Function(DateTime) onDaySelected;
 
   const Calendar({
     super.key,
@@ -32,7 +33,10 @@ class Calendar extends StatelessWidget {
         firstDay: DateTime(2000),
         lastDay: DateTime(2100),
         shouldFillViewport: true,
-        onDaySelected: onDaySelected,
+        onDaySelected: (selectedDay, _) {
+          HapticFeedback.lightImpact();
+          onDaySelected(selectedDay);
+        },
         headerStyle: HeaderStyle(
           titleCentered: true,
           formatButtonVisible: false,

@@ -112,7 +112,6 @@ class HomeView extends StatelessWidget {
           Icons.add_rounded,
           size: 32,
         ),
-        enableFeedback: true,
       ),
     );
   }

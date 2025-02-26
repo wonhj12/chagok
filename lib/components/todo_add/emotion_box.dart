@@ -2,6 +2,7 @@ import 'package:chagok/components/common/radio_button.dart';
 import 'package:chagok/utils/enums/emotion.dart';
 import 'package:chagok/utils/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class EmotionBox extends StatelessWidget {
   /// 감정
@@ -11,7 +12,7 @@ class EmotionBox extends StatelessWidget {
   final bool isSelected;
 
   /// 선택 함수
-  final void Function()? onTap;
+  final void Function() onTap;
 
   const EmotionBox({
     super.key,
@@ -23,7 +24,10 @@ class EmotionBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        HapticFeedback.lightImpact();
+        onTap();
+      },
       child: SizedBox(
         width: 64,
         height: 128,

@@ -1,6 +1,7 @@
 import 'package:chagok/utils/date_time.dart';
 import 'package:chagok/utils/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class DateTile extends StatelessWidget {
   /// 날짜
@@ -10,7 +11,7 @@ class DateTile extends StatelessWidget {
   final bool isSelected;
 
   /// 날짜 선택
-  final void Function()? onTap;
+  final void Function() onTap;
 
   const DateTile({
     super.key,
@@ -22,7 +23,10 @@ class DateTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        HapticFeedback.lightImpact();
+        onTap();
+      },
       child: Container(
         width: 48,
         height: 64,

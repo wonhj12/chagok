@@ -4,6 +4,7 @@ import 'package:chagok/utils/api.dart';
 import 'package:chagok/utils/date_time.dart';
 import 'package:chagok/utils/enums/app_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -42,6 +43,8 @@ class HomeViewModel with ChangeNotifier {
 
   /// 요일 longPress시 메뉴 표시
   void onLongPressWeekday(LongPressStartDetails details) {
+    HapticFeedback.lightImpact();
+
     // 요일 텍스트 RenderBox
     final RenderBox? renderBox =
         weekdayKey.currentContext?.findRenderObject() as RenderBox?;
@@ -62,7 +65,7 @@ class HomeViewModel with ChangeNotifier {
       context: context,
       position: RelativeRect.fromLTRB(
         menuPosition.dx,
-        menuPosition.dy,
+        menuPosition.dy + 4,
         screenSize.width - menuPosition.dx,
         screenSize.height - menuPosition.dy,
       ),
@@ -108,7 +111,7 @@ class HomeViewModel with ChangeNotifier {
   }
 
   /// 달력에서 날짜 선택
-  void OnDaySelected(DateTime selectedDay, DateTime focusedDay) async {
+  void OnDaySelected(DateTime selectedDay) async {
     // 선택된 날짜 업데이터
     todoModel.selectedDate = selectedDay;
 
@@ -181,6 +184,8 @@ class HomeViewModel with ChangeNotifier {
 
   /// FAB 클릭시 Todo 추가 페이지 이동
   void onPressedFAB() async {
+    HapticFeedback.lightImpact();
+
     todoModel.resetAddTodo();
     await context.pushNamed(AppRoute.add.name);
     notifyListeners();
