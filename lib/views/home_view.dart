@@ -96,11 +96,20 @@ class HomeView extends StatelessWidget {
                 ),
 
                 // 달력
-                if (homeViewModel.showCalendar)
-                  Calendar(
-                    focusedDay: homeViewModel.todoModel.selectedDate,
-                    onDaySelected: homeViewModel.OnDaySelected,
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 150),
+                  transitionBuilder: (child, animation) => SizeTransition(
+                    sizeFactor: animation,
+                    axisAlignment: -1.0,
+                    child: child,
                   ),
+                  child: homeViewModel.showCalendar
+                      ? Calendar(
+                          focusedDay: homeViewModel.todoModel.selectedDate,
+                          onDaySelected: homeViewModel.OnDaySelected,
+                        )
+                      : const SizedBox(),
+                ),
               ],
             ),
           )
