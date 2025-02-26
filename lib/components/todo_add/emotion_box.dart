@@ -38,10 +38,16 @@ class EmotionBox extends StatelessWidget {
             const SizedBox(height: 16),
 
             // 아이콘
-            Image.asset(
-              width: 64,
-              height: 64,
-              'assets/icons/emotion_${emotion.name}.png',
+            // 크기 변경 애니메이션 적용
+            AnimatedScale(
+              scale: isSelected ? 1.2 : 1.0, // 선택 시 확대
+              duration: const Duration(milliseconds: 150),
+              curve: Curves.easeOut,
+              child: Image.asset(
+                width: 64,
+                height: 64,
+                'assets/icons/emotion_${emotion.name}.png',
+              ),
             ),
             const SizedBox(height: 12),
 
