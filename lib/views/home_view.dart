@@ -44,10 +44,11 @@ class HomeView extends StatelessWidget {
                     Row(
                       children: [
                         // 달력 표시 화살표
-                        Icon(
-                          homeViewModel.showCalendar
-                              ? Icons.arrow_drop_up_rounded
-                              : Icons.arrow_drop_down_rounded,
+                        AnimatedRotation(
+                          duration: const Duration(milliseconds: 300),
+                          turns:
+                              homeViewModel.showCalendar ? 0.5 : 0.0, // 180도 회전
+                          child: const Icon(Icons.arrow_drop_down_rounded),
                         ),
 
                         // 월, 일

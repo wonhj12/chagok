@@ -106,6 +106,7 @@ class HomeViewModel with ChangeNotifier {
 
   /// 달력 표시 여부 변경
   void onTapToggleCalendar() {
+    HapticFeedback.lightImpact();
     showCalendar = !showCalendar;
     notifyListeners();
   }
