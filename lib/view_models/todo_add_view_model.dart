@@ -57,7 +57,6 @@ class TodoAddViewModel with ChangeNotifier {
         height: 200,
         is24HrFormat: true,
         iosStylePicker: true,
-        blurredBackground: true,
         accentColor: Palette.primary,
         unselectedColor: Palette.primary,
         backgroundColor: Palette.surface,
