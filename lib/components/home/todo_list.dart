@@ -8,13 +8,13 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 class TodoList extends StatelessWidget {
   final List<Todo> todos;
   final Function(Todo) onTapTodo;
-  final void Function(int) onDismissed;
+  final void Function(int) onPressedDelete;
   final void Function(int) onPressedComplete;
   const TodoList({
     super.key,
     required this.todos,
     required this.onTapTodo,
-    required this.onDismissed,
+    required this.onPressedDelete,
     required this.onPressedComplete,
   });
 
@@ -36,7 +36,7 @@ class TodoList extends StatelessWidget {
                   itemBuilder: (_, index) => TodoListTile(
                     todo: todos[index],
                     onTapTodo: () => onTapTodo(todos[index]),
-                    onDismissed: () => onDismissed(index),
+                    onPressedDelete: () => onPressedDelete(index),
                     onPressedComplete: () => onPressedComplete(index),
                   ),
                   separatorBuilder: (_, __) => Padding(

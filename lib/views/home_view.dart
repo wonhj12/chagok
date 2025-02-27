@@ -91,7 +91,7 @@ class HomeView extends StatelessWidget {
                     TodoList(
                       todos: homeViewModel.todoModel.selectedTodos,
                       onTapTodo: homeViewModel.onTapTodo,
-                      onDismissed: homeViewModel.onDismissedTodo,
+                      onPressedDelete: homeViewModel.onPressedDelete,
                       onPressedComplete: homeViewModel.onCompleteTodo,
                     ),
                   ],

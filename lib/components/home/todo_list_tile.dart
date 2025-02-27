@@ -10,13 +10,13 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 class TodoListTile extends StatelessWidget {
   final Todo todo;
   final Function() onTapTodo;
-  final void Function() onDismissed;
+  final void Function() onPressedDelete;
   final void Function() onPressedComplete;
   const TodoListTile({
     super.key,
     required this.todo,
     required this.onTapTodo,
-    required this.onDismissed,
+    required this.onPressedDelete,
     required this.onPressedComplete,
   });
 
@@ -25,10 +25,6 @@ class TodoListTile extends StatelessWidget {
     return Slidable(
       key: ValueKey(todo),
       endActionPane: ActionPane(
-        dismissible: DismissiblePane(
-          onDismissed: onDismissed,
-          closeOnCancel: true,
-        ),
         motion: const DrawerMotion(),
         extentRatio: 0.4,
         children: [
@@ -41,7 +37,7 @@ class TodoListTile extends StatelessWidget {
                 : Icons.check_circle_outline_rounded,
           ),
           SlidableAction(
-            onPressed: (_) => onDismissed(),
+            onPressed: (_) => onPressedDelete(),
             backgroundColor: Palette.error,
             foregroundColor: Palette.surface,
             icon: Icons.delete_rounded,
