@@ -117,11 +117,16 @@ class HomeView extends StatelessWidget {
           )
         ],
       ),
-      floatingActionButton: IconButton.filled(
-        onPressed: homeViewModel.onPressedFAB,
-        icon: Icon(
-          Icons.add_rounded,
-          size: 32,
+      floatingActionButton: Material(
+        elevation: 1,
+        shape: CircleBorder(),
+        shadowColor: Palette.onSurfaceVariant,
+        child: IconButton.filled(
+          onPressed: homeViewModel.onPressedFAB,
+          icon: Icon(
+            Icons.add_rounded,
+            size: 32,
+          ),
         ),
       ),
     );
