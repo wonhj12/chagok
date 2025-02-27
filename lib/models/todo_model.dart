@@ -62,6 +62,26 @@ class TodoModel with ChangeNotifier {
   /// 리스트에 새로운 일정 추가하기
   void addTodo(Todo todo) {
     todos[selectedDate.weekday % 7].add(todo);
+
+    // 정렬
+    sortTodo(todos[selectedDate.weekday % 7]);
+  }
+
+  /// 리스트 정렬
+  void sortTodo(List<Todo> list) {
+    // 정렬: time을 기준으로 오름차순, time이 같으면 date(추가 순서)를 기준으로 오름차순
+    list.sort((a, b) {
+      if (a.time == null && b.time != null) return 1; // null 값은 뒤로
+      if (a.time != null && b.time == null) return -1;
+      if (a.time != null && b.time != null) {
+        int timeCompare = a.time!.hour.compareTo(b.time!.hour);
+        if (timeCompare == 0) {
+          timeCompare = a.time!.minute.compareTo(b.time!.minute);
+        }
+        if (timeCompare != 0) return timeCompare;
+      }
+      return a.date.compareTo(b.date);
+    });
   }
 
   /// 리스트에서 일정 제거

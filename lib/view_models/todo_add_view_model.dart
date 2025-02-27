@@ -158,6 +158,8 @@ class TodoAddViewModel with ChangeNotifier {
             clearTime: todoModel.time == null,
             emotion: todoModel.emotion,
           );
+
+          todoModel.sortTodo(todoModel.selectedTodos);
         }
       } else {
         // 완료, 미완료 상태 변경
