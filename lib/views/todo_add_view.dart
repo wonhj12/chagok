@@ -1,4 +1,5 @@
 import 'package:chagok/components/common/column_scroll_view.dart';
+import 'package:chagok/components/common/custom_ink_well.dart';
 import 'package:chagok/components/common/custom_scaffold.dart';
 import 'package:chagok/components/todo_add/emotion_box.dart';
 import 'package:chagok/utils/enums/emotion.dart';
@@ -130,24 +131,23 @@ class TodoAddView extends StatelessWidget {
                 ),
 
                 // 시간 선택 컨테이너
-                SizedBox(
-                  width: 100,
-                  height: 36,
-                  child: FilledButton(
-                    onPressed: todoAddViewModel.onPressedTime,
-                    style: FilledButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      foregroundColor: todoAddViewModel.todoModel.time == null
-                          ? Palette.onSurfaceVariant
-                          : Palette.onSurface,
-                      backgroundColor: Palette.surface,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                CustomInkWell(
+                  onTap: todoAddViewModel.onPressedTime,
+                  onLongPress: todoAddViewModel.onLongPressTime,
+                  borderRadius: BorderRadius.circular(10),
+                  backgroundColor: Palette.surface,
+                  child: SizedBox(
+                    width: 100,
+                    height: 36,
+                    child: Center(
+                      child: Text(
+                        todoAddViewModel.getTime(),
+                        style: Palette.callout.copyWith(
+                          color: todoAddViewModel.todoModel.time == null
+                              ? Palette.onSurfaceVariant
+                              : Palette.onSurface,
+                        ),
                       ),
-                    ),
-                    child: Text(
-                      todoAddViewModel.getTime(),
-                      style: Palette.callout,
                     ),
                   ),
                 )
