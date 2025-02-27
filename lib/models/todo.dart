@@ -67,6 +67,7 @@ class Todo {
     String? memo,
     DateTime? date,
     TimeOfDay? time,
+    bool? clearTime,
     Emotion? emotion,
     bool? isCompleted,
   }) {
@@ -74,7 +75,7 @@ class Todo {
     this.title = title ?? this.title;
     this.memo = memo ?? this.memo;
     this.date = date ?? this.date;
-    this.time = time ?? this.time;
+    this.time = clearTime ?? false ? null : time ?? this.time;
     this.emotion = emotion ?? this.emotion;
     this.isCompleted = isCompleted ?? this.isCompleted;
   }

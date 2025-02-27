@@ -155,6 +155,7 @@ class TodoAddViewModel with ChangeNotifier {
             title: todoModel.title.text.trim(),
             memo: todoModel.memo.text.trim(),
             time: todoModel.time,
+            clearTime: todoModel.time == null,
             emotion: todoModel.emotion,
           );
         }
