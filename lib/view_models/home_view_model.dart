@@ -105,38 +105,50 @@ class HomeViewModel with ChangeNotifier {
 
   /// 로그아웃
   void logout() async {
-    final SupabaseClient supabase = Supabase.instance.client;
+    await customDialog(
+      context: context,
+      type: Popup.logout,
+      onPressed: () async {
+        final SupabaseClient supabase = Supabase.instance.client;
 
-    isLoading = true;
-    notifyListeners();
+        isLoading = true;
+        notifyListeners();
 
-    await supabase.auth.signOut();
+        await supabase.auth.signOut();
 
-    isLoading = false;
-    notifyListeners();
+        isLoading = false;
+        notifyListeners();
 
-    context.goNamed(AppRoute.login.name);
+        context.goNamed(AppRoute.login.name);
+      },
+    );
   }
 
   /// 회원 탈퇴
   void deleteUser() async {
-    final SupabaseClient supabase = Supabase.instance.client;
+    customDialog(
+      context: context,
+      type: Popup.deleteUser,
+      onPressed: () async {
+        final SupabaseClient supabase = Supabase.instance.client;
 
-    isLoading = true;
-    notifyListeners();
+        isLoading = true;
+        notifyListeners();
 
-    // 회원 삭제
-    await supabase.functions.invoke('delete-user', headers: {
-      'Authorization': 'Bearer ${supabase.auth.currentSession?.accessToken}'
-    });
-    debugPrint('Deleted user');
+        // 회원 삭제
+        await supabase.functions.invoke('delete-user', headers: {
+          'Authorization': 'Bearer ${supabase.auth.currentSession?.accessToken}'
+        });
+        debugPrint('Deleted user');
 
-    await supabase.auth.signOut();
+        await supabase.auth.signOut();
 
-    isLoading = false;
-    notifyListeners();
+        isLoading = false;
+        notifyListeners();
 
-    context.goNamed(AppRoute.login.name);
+        context.goNamed(AppRoute.login.name);
+      },
+    );
   }
 
   /// 달력 표시 여부 변경
