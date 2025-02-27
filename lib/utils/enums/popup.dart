@@ -16,19 +16,22 @@ enum Popup {
     color: Palette.primary,
   ),
   deleteUser(
-    icon: 'lock',
-    text: '계정을 삭제하시겠어요?',
+    icon: 'emotion_sad',
+    text: '정말 계정을 탈퇴하시겠어요?',
+    detailText: '모든 데이터가 삭제되며 되돌릴 수 없어요.',
     okText: '탈퇴',
     color: Palette.error,
   );
 
   final String icon;
   final String text;
+  final String? detailText;
   final String okText;
   final Color color;
   const Popup({
     required this.icon,
     required this.text,
+    this.detailText,
     required this.okText,
     required this.color,
   });

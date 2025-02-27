@@ -10,7 +10,7 @@ Future<void> customDialog({
   await showDialog(
     context: context,
     builder: (context) => Dialog(
-      insetPadding: EdgeInsets.symmetric(horizontal: 20),
+      insetPadding: EdgeInsets.symmetric(horizontal: 40),
       child: Container(
         padding: EdgeInsets.all(12),
         width: double.infinity,
@@ -25,6 +25,13 @@ Future<void> customDialog({
 
             // 문구
             Text(type.text, style: Palette.headline),
+
+            // 부연 설명 문구
+            if (type.detailText != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(type.detailText!, style: Palette.callout),
+              ),
             const SizedBox(height: 24),
 
             // 취소, 확인
