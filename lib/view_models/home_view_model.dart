@@ -26,8 +26,13 @@ class HomeViewModel with ChangeNotifier {
 
   /// 초기화
   void initialize() async {
+    isLoading = true;
+    notifyListeners();
+
     // 일정 불러오기
     await todoModel.getTodos();
+
+    isLoading = false;
     notifyListeners();
   }
 
