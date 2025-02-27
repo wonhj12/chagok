@@ -1,3 +1,4 @@
+import 'package:chagok/components/common/column_scroll_view.dart';
 import 'package:chagok/components/common/custom_scaffold.dart';
 import 'package:chagok/components/todo_add/emotion_box.dart';
 import 'package:chagok/utils/enums/emotion.dart';
@@ -18,7 +19,7 @@ class TodoAddView extends StatelessWidget {
       title: todoAddViewModel.titleText(),
       showBackBtn: true,
       resizeToAvoidBottomInset: false,
-      body: Column(
+      body: ColumnScrollView(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // 제목
@@ -202,6 +203,7 @@ class TodoAddView extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(height: 24),
           const Spacer(),
 
           // 등록 버튼
