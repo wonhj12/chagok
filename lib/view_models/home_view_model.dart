@@ -1,8 +1,10 @@
+import 'package:chagok/components/common/custom_dialog.dart';
 import 'package:chagok/models/todo.dart';
 import 'package:chagok/models/todo_model.dart';
 import 'package:chagok/utils/api.dart';
 import 'package:chagok/utils/date_time.dart';
 import 'package:chagok/utils/enums/app_route.dart';
+import 'package:chagok/utils/enums/popup.dart';
 import 'package:chagok/utils/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -191,10 +193,22 @@ class HomeViewModel with ChangeNotifier {
   }
 
   /// Todo 우 -> 좌 스와이프 (삭제)
-  void onDismissedTodo(int index) async {
-    // 일정 제거
-    await todoModel.removeTodo(index);
-    notifyListeners();
+  void onPressedDelete(int index) async {
+    // 삭제 확인 팝업 표시
+    await customDialog(
+      context: context,
+      type: Popup.delete,
+      onPressed: () async {
+        isLoading = true;
+        notifyListeners();
+
+        // 일정 삭제
+        await todoModel.removeTodo(index);
+
+        isLoading = false;
+        notifyListeners();
+      },
+    );
   }
 
   /// Todo 좌 -> 우 스와이프 (완료)
