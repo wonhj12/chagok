@@ -6,6 +6,7 @@ import 'package:chagok/utils/enums/emotion.dart';
 import 'package:chagok/utils/palette.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 class TodoAddViewModel with ChangeNotifier {
@@ -71,6 +72,13 @@ class TodoAddViewModel with ChangeNotifier {
         moonAsset: Image.asset('assets/icons/moon.png'),
       ),
     );
+  }
+
+  /// 시간 제거
+  void onLongPressTime() {
+    HapticFeedback.lightImpact();
+    todoModel.time = null;
+    notifyListeners();
   }
 
   /// 설정된 시간 표시
