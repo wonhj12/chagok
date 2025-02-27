@@ -192,7 +192,7 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  /// Todo 우 -> 좌 스와이프 (삭제)
+  /// 일정 삭제
   void onPressedDelete(int index) async {
     // 삭제 확인 팝업 표시
     await customDialog(
@@ -211,7 +211,7 @@ class HomeViewModel with ChangeNotifier {
     );
   }
 
-  /// Todo 좌 -> 우 스와이프 (완료)
+  /// 일정 완료
   void onCompleteTodo(int index) async {
     // 업데이트할 일정 선택
     final Todo todo = todoModel.selectedTodos[index];
