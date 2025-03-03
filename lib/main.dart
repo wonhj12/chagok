@@ -15,6 +15,10 @@ void main() async {
   );
   KakaoSdk.init(nativeAppKey: dotenv.env['KAKAO_NATIVE_APP_KEY']);
 
+  if (Supabase.instance.client.auth.currentUser != null) {
+    await todoModel.init();
+  }
+
   runApp(const MainApp());
 }
 

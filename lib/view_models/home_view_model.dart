@@ -14,9 +14,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class HomeViewModel with ChangeNotifier {
   final TodoModel todoModel;
   final BuildContext context;
-  HomeViewModel({required this.todoModel, required this.context}) {
-    initialize();
-  }
+  HomeViewModel({required this.todoModel, required this.context});
 
   /// 페이지 로딩 상태
   bool isLoading = false;
@@ -25,18 +23,6 @@ class HomeViewModel with ChangeNotifier {
   bool showCalendar = false;
 
   final GlobalKey weekdayKey = GlobalKey();
-
-  /// 초기화
-  void initialize() async {
-    isLoading = true;
-    notifyListeners();
-
-    // 일정 불러오기
-    await todoModel.getTodos();
-
-    isLoading = false;
-    notifyListeners();
-  }
 
   /// 화면 탭 로직
   void onTap() {
@@ -159,7 +145,7 @@ class HomeViewModel with ChangeNotifier {
   }
 
   /// 달력에서 날짜 선택
-  void OnDaySelected(DateTime selectedDay) async {
+  void onDaySelected(DateTime selectedDay) async {
     // 선택된 날짜 업데이터
     todoModel.selectedDate = selectedDay;
 

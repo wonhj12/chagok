@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:chagok/models/todo_model.dart';
 import 'package:chagok/utils/enums/app_route.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +11,9 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginViewModel with ChangeNotifier {
+  TodoModel todoModel;
   BuildContext context;
-  LoginViewModel({required this.context});
+  LoginViewModel({required this.todoModel, required this.context});
 
   // Supabase 클라이언트
   final SupabaseClient supabase = Supabase.instance.client;
@@ -53,6 +54,8 @@ class LoginViewModel with ChangeNotifier {
       idToken: idToken,
       accessToken: accessToken,
     );
+
+    await todoModel.init();
 
     isLoading = false;
     notifyListeners();
@@ -96,6 +99,8 @@ class LoginViewModel with ChangeNotifier {
       accessToken: accessToken,
     );
 
+    await todoModel.init();
+
     isLoading = false;
     notifyListeners();
 
@@ -137,6 +142,8 @@ class LoginViewModel with ChangeNotifier {
       idToken: idToken,
       nonce: rawNonce,
     );
+
+    await todoModel.init();
 
     isLoading = false;
     notifyListeners();
