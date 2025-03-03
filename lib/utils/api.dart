@@ -5,6 +5,33 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class API {
   final SupabaseClient supabase = Supabase.instance.client;
 
+  /// 주어진 날짜가 포함된 월에 있는 일정 날짜들을 가져오는 get 요청
+  /// <br /> 달력에 표시할 마커로 사용하기 위해 set로 변환
+  Future<Set<DateTime>> getMarkers(DateTime date) async {
+    // 월의 시작일과 마지막일 계산
+    final int start =
+        DateTime(date.year - 1, date.month, 1).millisecondsSinceEpoch;
+    final int end =
+        DateTime(date.year + 1, date.month + 1, 1).millisecondsSinceEpoch - 1;
+
+    // 선택된 날짜가 포함된 월의 모든 일정 날짜 가져오기
+    final List<Map<String, dynamic>> response = await supabase
+        .from('todo')
+        .select('date')
+        .gte('date', start)
+        .lte('date', end - 1);
+
+    // 마커 초기화
+    Set<DateTime> markers = {};
+
+    for (Map<String, dynamic> item in response) {
+      DateTime date = DateTime.fromMillisecondsSinceEpoch(item['date']);
+      markers.add(DateTime(date.year, date.month, date.day));
+    }
+
+    return markers;
+  }
+
   /// 주어진 날짜가 포함된 주의 일정을 가져오는 get 요청
   /// <br /> 요일에 맞춰 길이 7의 배열로 반환
   Future<List<List<Todo>>> getTodos(DateTime date) async {
