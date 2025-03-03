@@ -7,6 +7,7 @@ class TodoModel with ChangeNotifier {
   /// 현재 선택된 날짜
   DateTime selectedDate = DateTime.now();
 
+  /// 선택된 주
   List<DateTime> selectedWeek = [];
 
   /// 선택된 주의 모든 일정 리스트
@@ -14,6 +15,9 @@ class TodoModel with ChangeNotifier {
 
   /// 선택된 날짜의 Todo 리스트
   List<Todo> selectedTodos = [];
+
+  /// 선택된 월의 일정 마커
+  Set<DateTime> markers = {};
 
   /* 일정 등록 관련 변수 */
   /// 제목
@@ -31,15 +35,13 @@ class TodoModel with ChangeNotifier {
   /// 선택된 Todo 오브젝트
   Todo? selectedTodo;
 
-  TodoModel() {
-    // 모델이 처음 생성될 때 오늘이 포함된 주차 계산
-    getSelectedWeek();
-  }
+  TodoModel();
 
   /// 모델 초기화
   void reset() {
     selectedDate = DateTime.now();
     selectedWeek = [];
+    markers.clear();
     resetTodos();
     resetAddTodo();
   }
@@ -59,9 +61,22 @@ class TodoModel with ChangeNotifier {
     emotion = Emotion.happy;
   }
 
+  /// 모델 init
+  Future<void> init() async {
+    debugPrint('Init TodoModel');
+    reset();
+    getSelectedWeek();
+    await getMarkers(selectedDate);
+    await getTodos();
+  }
+
   /// 리스트에 새로운 일정 추가하기
   void addTodo(Todo todo) {
+    // todo 리스트에 추가
     todos[selectedDate.weekday % 7].add(todo);
+
+    // 마커 추가
+    markers.add(DateTime(todo.date.year, todo.date.month, todo.date.day));
 
     // 정렬
     sortTodo(todos[selectedDate.weekday % 7]);
@@ -89,7 +104,14 @@ class TodoModel with ChangeNotifier {
     final bool response = await API().deleteTodo(selectedTodos[index].id);
 
     // selectedTodos에서 지우면 todos에도 지워짐
-    if (response) selectedTodos.removeAt(index);
+    if (response) {
+      final Todo removed = selectedTodos.removeAt(index);
+
+      // 더이상 todo가 없으면 마커 삭제
+      if (selectedTodos.isEmpty)
+        markers.remove(
+            DateTime(removed.date.year, removed.date.month, removed.date.day));
+    }
   }
 
   /// 서버에서 일정 가져오기
@@ -124,5 +146,10 @@ class TodoModel with ChangeNotifier {
     // 일요일부터 토요일까지의 날짜 리스트 생성
     selectedWeek =
         List.generate(7, (index) => sunday.add(Duration(days: index)));
+  }
+
+  /// 선택된 날짜가 포함된 월의 마커를 반환
+  Future<void> getMarkers(DateTime date) async {
+    markers = await API().getMarkers(date);
   }
 }
