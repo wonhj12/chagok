@@ -108,7 +108,8 @@ class HomeView extends StatelessWidget {
                   child: homeViewModel.showCalendar
                       ? Calendar(
                           focusedDay: homeViewModel.todoModel.selectedDate,
-                          onDaySelected: homeViewModel.OnDaySelected,
+                          onDaySelected: homeViewModel.onDaySelected,
+                          markers: homeViewModel.todoModel.markers,
                         )
                       : const SizedBox(),
                 ),

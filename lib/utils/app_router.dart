@@ -34,7 +34,10 @@ class AppRouter {
           path: '/login',
           name: AppRoute.login.name,
           builder: (context, state) => ChangeNotifierProvider(
-            create: (context) => LoginViewModel(context: context),
+            create: (context) => LoginViewModel(
+              todoModel: todoModel,
+              context: context,
+            ),
             child: const LoginView(),
           ),
         ),
