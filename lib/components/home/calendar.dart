@@ -7,12 +7,17 @@ class Calendar extends StatelessWidget {
   /// 초기 선택 날짜
   final DateTime focusedDay;
 
+  /// 날짜 선택
   final Function(DateTime) onDaySelected;
+
+  /// 일정이 존재하는 날짜 마커
+  final Set<DateTime>? markers;
 
   const Calendar({
     super.key,
     required this.focusedDay,
     required this.onDaySelected,
+    this.markers,
   });
 
   @override
@@ -56,15 +61,6 @@ class Calendar extends StatelessWidget {
         daysOfWeekHeight: 36,
         rowHeight: 52,
         calendarStyle: CalendarStyle(
-          defaultTextStyle: Palette.callout,
-          weekendTextStyle: Palette.callout,
-          todayDecoration: const BoxDecoration(
-            color: Colors.transparent,
-          ),
-          todayTextStyle: Palette.callout.copyWith(
-            color: Palette.primary,
-            fontWeight: FontWeight.w600,
-          ),
           outsideTextStyle: Palette.callout.copyWith(
             color: Palette.onSurfaceVariant,
           ),
@@ -77,6 +73,60 @@ class Calendar extends StatelessWidget {
           ),
         ),
         calendarBuilders: CalendarBuilders(
+          defaultBuilder: (_, day, __) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // 마커
+              SizedBox(
+                height: 12,
+                child:
+                    (markers != null && markers!.any((d) => isSameDay(d, day)))
+                        ? Container(
+                            width: 4,
+                            height: 4,
+                            decoration: BoxDecoration(
+                              color: Palette.primary,
+                              shape: BoxShape.circle,
+                            ),
+                          )
+                        : SizedBox.shrink(),
+              ),
+
+              // 날짜
+              Text('${day.day}', style: Palette.callout),
+              SizedBox(height: 12),
+            ],
+          ),
+          todayBuilder: (_, day, __) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // 마커
+              SizedBox(
+                height: 12,
+                child:
+                    (markers != null && markers!.any((d) => isSameDay(d, day)))
+                        ? Container(
+                            width: 4,
+                            height: 4,
+                            decoration: BoxDecoration(
+                              color: Palette.primary,
+                              shape: BoxShape.circle,
+                            ),
+                          )
+                        : SizedBox.shrink(),
+              ),
+
+              // 날짜
+              Text(
+                '${day.day}',
+                style: Palette.callout.copyWith(
+                  color: Palette.primary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(height: 12),
+            ],
+          ),
           dowBuilder: (_, day) => Center(
             child: Text(
               ['월', '화', '수', '목', '금', '토', '일'][day.weekday - 1],
