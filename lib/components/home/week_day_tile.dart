@@ -2,7 +2,7 @@ import 'package:chagok/components/home/date_tile.dart';
 import 'package:chagok/utils/palette.dart';
 import 'package:flutter/material.dart';
 
-class WeekContainer extends StatelessWidget {
+class WeekDayTile extends StatelessWidget {
   /// 선택된 날짜가 포함된 주
   final List<DateTime> selectedWeek;
 
@@ -12,7 +12,7 @@ class WeekContainer extends StatelessWidget {
   /// 날짜 선택시 선택된 날짜를 변경
   final void Function(int) onTapDateTile;
 
-  const WeekContainer({
+  const WeekDayTile({
     super.key,
     required this.selectedWeek,
     required this.isSelectedDay,
