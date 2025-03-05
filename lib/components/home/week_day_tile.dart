@@ -1,68 +1,79 @@
-import 'package:chagok/components/home/date_tile.dart';
+import 'package:chagok/utils/date_time.dart';
 import 'package:chagok/utils/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class WeekDayTile extends StatelessWidget {
-  /// 선택된 날짜가 포함된 주
-  final List<DateTime> selectedWeek;
+  /// 날짜
+  final DateTime date;
 
-  /// 주어진 요일과 선택된 날짜의 일치 여부
-  final bool Function(int) isSelectedDay;
+  /// 선택된 날짜 일정 포함 여부
+  final bool hastodo;
 
-  /// 날짜 선택시 선택된 날짜를 변경
-  final void Function(int) onTapDateTile;
+  /// 선택된 날짜 여부
+  final bool isSelected;
+
+  /// 날짜 선택
+  final void Function() onTap;
 
   const WeekDayTile({
     super.key,
-    required this.selectedWeek,
-    required this.isSelectedDay,
-    required this.onTapDateTile,
+    required this.date,
+    required this.hastodo,
+    required this.isSelected,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      // 타일 넓이
-      final double tileWidth = 48;
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        onTap();
+      },
+      behavior: HitTestBehavior.opaque,
+      child: SizedBox(
+        width: 48,
+        height: 64,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // 일정 존재 표시
+            SizedBox(
+              height: 8,
+              child: hastodo
+                  ? Container(
+                      width: 4,
+                      height: 4,
+                      margin: EdgeInsets.only(bottom: 4),
+                      decoration: BoxDecoration(
+                        color: isSelected ? Palette.surface : Palette.primary,
+                        shape: BoxShape.circle,
+                      ),
+                    )
+                  : SizedBox.shrink(),
+            ),
 
-      // 선택된 요일 계산
-      final int selectedIndex =
-          selectedWeek.indexWhere((date) => isSelectedDay(date.weekday % 7));
-
-      // 위치 계산
-      final double spacing = (constraints.maxWidth - (tileWidth * 7)) / 6;
-
-      return Stack(
-        children: [
-          // 배경 (전환 애니메이션 적용)
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.fastOutSlowIn,
-            left: selectedIndex * (tileWidth + spacing),
-            child: Container(
-              width: tileWidth,
-              height: 64,
-              decoration: BoxDecoration(
-                color: Palette.primary,
-                borderRadius: BorderRadius.circular(16),
+            // 일
+            Text(
+              '${date.day}',
+              style: Palette.headline.copyWith(
+                color: isSelected ? Palette.surface : Palette.onSurface,
               ),
             ),
-          ),
+            const SizedBox(height: 4),
 
-          // 날짜
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(
-              7,
-              (index) => DateTile(
-                date: selectedWeek[index],
-                isSelected: isSelectedDay(index),
-                onTap: () => onTapDateTile(index),
+            // 요일
+            Text(
+              weekdayToString(date.weekday).substring(0, 1),
+              style: Palette.caption.copyWith(
+                color: isSelected ? Palette.surface : Palette.onSurface,
               ),
             ),
-          ),
-        ],
-      );
-    });
+          ],
+        ),
+      ),
+    );
   }
 }

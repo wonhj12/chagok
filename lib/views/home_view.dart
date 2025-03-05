@@ -1,7 +1,7 @@
 import 'package:chagok/components/common/custom_scaffold.dart';
 import 'package:chagok/components/home/calendar.dart';
 import 'package:chagok/components/home/todo_list.dart';
-import 'package:chagok/components/home/week_day_tile.dart';
+import 'package:chagok/components/home/week_day_container.dart';
 import 'package:chagok/utils/palette.dart';
 import 'package:chagok/view_models/home_view_model.dart';
 import 'package:flutter/material.dart';
@@ -80,8 +80,9 @@ class HomeView extends StatelessWidget {
                     const SizedBox(height: 32),
 
                     // 날짜 선택
-                    WeekDayTile(
+                    WeekDayContainer(
                       selectedWeek: homeViewModel.todoModel.selectedWeek,
+                      hasTodo: homeViewModel.hasTodo,
                       isSelectedDay: homeViewModel.isSelectedDay,
                       onTapDateTile: homeViewModel.onTapDateTile,
                     ),

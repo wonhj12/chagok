@@ -167,6 +167,9 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  /// WeekDayTile에 일정 존재 여부 표시
+  bool hasTodo(int index) => todoModel.todos[index].isNotEmpty;
+
   /// 주어진 요일과 선택된 날짜 일치 여부를 반환
   bool isSelectedDay(int index) {
     return index == todoModel.selectedDate.weekday % 7;
