@@ -90,10 +90,12 @@ class HomeView extends StatelessWidget {
 
                     // 할 일 목록
                     TodoList(
-                      todos: homeViewModel.todoModel.selectedTodos,
+                      controller: homeViewModel.todoModel.todoListController,
+                      todos: homeViewModel.todoModel.todos,
                       onTapTodo: homeViewModel.onTapTodo,
                       onPressedDelete: homeViewModel.onPressedDelete,
                       onPressedComplete: homeViewModel.onCompleteTodo,
+                      onPageChanged: homeViewModel.onPageChanged,
                     ),
                   ],
                 ),
