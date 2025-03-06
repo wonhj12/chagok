@@ -13,11 +13,11 @@ class TodoModel with ChangeNotifier {
   /// 선택된 주의 모든 일정 리스트
   List<List<Todo>> todos = [[], [], [], [], [], [], []];
 
-  /// 선택된 날짜의 Todo 리스트
-  List<Todo> selectedTodos = [];
-
   /// 선택된 월의 일정 마커
   Set<DateTime> markers = {};
+
+  /// TodoList PageController
+  late PageController todoListController;
 
   /* 일정 등록 관련 변수 */
   /// 제목
@@ -49,7 +49,6 @@ class TodoModel with ChangeNotifier {
   /// 서버에서 받아온 일정 초기화
   void resetTodos() {
     todos = [[], [], [], [], [], [], []];
-    selectedTodos = [];
   }
 
   /// 일정 등록 변수 초기화
@@ -68,18 +67,23 @@ class TodoModel with ChangeNotifier {
     getSelectedWeek();
     await getMarkers(selectedDate);
     await getTodos();
+    todoListController =
+        PageController(initialPage: selectedWeekday(), viewportFraction: 1.1);
   }
+
+  /// 선택된 날짜의 요일 계산
+  int selectedWeekday() => selectedDate.weekday % 7;
 
   /// 리스트에 새로운 일정 추가하기
   void addTodo(Todo todo) {
     // todo 리스트에 추가
-    todos[selectedDate.weekday % 7].add(todo);
+    todos[selectedWeekday()].add(todo);
 
     // 마커 추가
     markers.add(DateTime(todo.date.year, todo.date.month, todo.date.day));
 
     // 정렬
-    sortTodo(todos[selectedDate.weekday % 7]);
+    sortTodo(todos[selectedWeekday()]);
   }
 
   /// 리스트 정렬
@@ -101,14 +105,15 @@ class TodoModel with ChangeNotifier {
 
   /// 리스트에서 일정 제거
   Future<void> removeTodo(int index) async {
-    final bool response = await API().deleteTodo(selectedTodos[index].id);
+    final bool response =
+        await API().deleteTodo(todos[selectedWeekday()][index].id);
 
     // selectedTodos에서 지우면 todos에도 지워짐
     if (response) {
-      final Todo removed = selectedTodos.removeAt(index);
+      final Todo removed = todos[selectedWeekday()].removeAt(index);
 
       // 더이상 todo가 없으면 마커 삭제
-      if (selectedTodos.isEmpty)
+      if (todos[selectedWeekday()].isEmpty)
         markers.remove(
             DateTime(removed.date.year, removed.date.month, removed.date.day));
     }
@@ -118,7 +123,6 @@ class TodoModel with ChangeNotifier {
   Future<void> getTodos() async {
     resetTodos();
     todos = await API().getTodos(selectedDate);
-    selectedTodos = todos[selectedDate.weekday % 7];
   }
 
   /// 일정 수정시 변수를 선택된 Todo로 동기화
@@ -140,8 +144,7 @@ class TodoModel with ChangeNotifier {
   /// 선택된 날짜가 포함된 주의 날짜를 반환
   void getSelectedWeek() {
     // 선택한 날짜가 포함된 주의 월요일을 계산
-    DateTime sunday =
-        selectedDate.subtract(Duration(days: selectedDate.weekday % 7));
+    DateTime sunday = selectedDate.subtract(Duration(days: selectedWeekday()));
 
     // 일요일부터 토요일까지의 날짜 리스트 생성
     selectedWeek =

@@ -158,7 +158,7 @@ class TodoAddViewModel with ChangeNotifier {
             emotion: todoModel.emotion,
           );
 
-          todoModel.sortTodo(todoModel.selectedTodos);
+          todoModel.sortTodo(todoModel.todos[todoModel.selectedWeekday()]);
         }
       } else {
         // 완료, 미완료 상태 변경
