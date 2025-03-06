@@ -22,6 +22,7 @@ class HomeViewModel with ChangeNotifier {
   /// 달력 표시 상태
   bool showCalendar = false;
 
+  /// 페이지 좌측 상단 요일 GlobalKey
   final GlobalKey weekdayKey = GlobalKey();
 
   /// 화면 탭 로직
@@ -152,6 +153,9 @@ class HomeViewModel with ChangeNotifier {
     // 선택된 날짜가 포함된 주 업데이트
     todoModel.getSelectedWeek();
 
+    // 선택된 날짜 요일로 페이지 이동
+    todoModel.todoListController.jumpToPage(todoModel.selectedWeekday());
+
     // 달력 닫기
     showCalendar = false;
 
@@ -172,16 +176,21 @@ class HomeViewModel with ChangeNotifier {
 
   /// 주어진 요일과 선택된 날짜 일치 여부를 반환
   bool isSelectedDay(int index) {
-    return index == todoModel.selectedDate.weekday % 7;
+    return index == todoModel.selectedWeekday();
   }
 
   /// 날짜 선택시 선택 날짜를 변경
   void onTapDateTile(int index) {
     // 날짜 변경
     todoModel.selectedDate = todoModel.selectedWeek[index];
+    todoModel.todoListController.jumpToPage(index);
+    notifyListeners();
+  }
 
-    // 일정 변경
-    todoModel.selectedTodos = todoModel.todos[index];
+  /// TodoList 페이지 스와이프
+  void onPageChanged(int index) {
+    // 날짜 변경
+    todoModel.selectedDate = todoModel.selectedWeek[index];
     notifyListeners();
   }
 
@@ -215,7 +224,7 @@ class HomeViewModel with ChangeNotifier {
   /// 일정 완료
   void onCompleteTodo(int index) async {
     // 업데이트할 일정 선택
-    final Todo todo = todoModel.selectedTodos[index];
+    final Todo todo = todoModel.todos[todoModel.selectedWeekday()][index];
 
     // 완료, 미완료 상태 변경
     final bool response = await API().patchTodo(
