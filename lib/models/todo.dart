@@ -23,6 +23,9 @@ class Todo {
   /// 완료 여부
   bool isCompleted;
 
+  /// 알림 여부
+  bool isAlarm;
+
   Todo({
     required this.id,
     required this.title,
@@ -31,6 +34,7 @@ class Todo {
     this.time,
     required this.emotion,
     required this.isCompleted,
+    required this.isAlarm,
   });
 
   /// 서버에서 받은 json 데이터를 Todo 오브젝트로 변환
@@ -46,6 +50,7 @@ class Todo {
           : null,
       emotion: Emotion.fromString(json['emotion']),
       isCompleted: json['isCompleted'],
+      isAlarm: json['isAlarm'] ?? false,
     );
   }
 
@@ -58,6 +63,7 @@ class Todo {
       'time': time,
       'emotion': emotion.name,
       'isCompleted': isCompleted,
+      'isAlarm': isAlarm,
     };
   }
 
@@ -70,6 +76,7 @@ class Todo {
     bool? clearTime,
     Emotion? emotion,
     bool? isCompleted,
+    bool? isAlarm,
   }) {
     // 주어진 값이 있으면 수정, 없으면 기존 데이터 그대로 유지
     this.title = title ?? this.title;
@@ -78,5 +85,6 @@ class Todo {
     this.time = clearTime ?? false ? null : time ?? this.time;
     this.emotion = emotion ?? this.emotion;
     this.isCompleted = isCompleted ?? this.isCompleted;
+    this.isAlarm = isAlarm ?? this.isAlarm;
   }
 }

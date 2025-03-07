@@ -29,6 +29,9 @@ class TodoModel with ChangeNotifier {
   /// 시간
   TimeOfDay? time;
 
+  /// 알림
+  bool isAlarm = false;
+
   /// 감정
   Emotion emotion = Emotion.happy;
 
@@ -57,6 +60,7 @@ class TodoModel with ChangeNotifier {
     title.clear();
     memo.clear();
     time = null;
+    isAlarm = false;
     emotion = Emotion.happy;
   }
 
@@ -132,6 +136,7 @@ class TodoModel with ChangeNotifier {
     memo.text = todo.memo ?? '';
     time = todo.time;
     emotion = todo.emotion;
+    isAlarm = todo.isAlarm;
   }
 
   /// 선택된 일정 수정 여부
@@ -139,7 +144,8 @@ class TodoModel with ChangeNotifier {
       selectedTodo?.title != title.text.trim() ||
       (selectedTodo?.memo ?? '') != memo.text.trim() ||
       selectedTodo?.time != time ||
-      selectedTodo?.emotion != emotion;
+      selectedTodo?.emotion != emotion ||
+      selectedTodo?.isAlarm != isAlarm;
 
   /// 선택된 날짜가 포함된 주의 날짜를 반환
   void getSelectedWeek() {
