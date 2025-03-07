@@ -1,6 +1,7 @@
 import 'package:chagok/components/common/column_scroll_view.dart';
 import 'package:chagok/components/common/custom_ink_well.dart';
 import 'package:chagok/components/common/custom_scaffold.dart';
+import 'package:chagok/components/common/toggle_button.dart';
 import 'package:chagok/components/todo_add/emotion_box.dart';
 import 'package:chagok/utils/enums/emotion.dart';
 import 'package:chagok/utils/palette.dart';
@@ -109,48 +110,80 @@ class TodoAddView extends StatelessWidget {
           ),
           const SizedBox(height: 24),
 
-          // 시간
+          // 시간, 알림
           Container(
             width: double.infinity,
-            height: 64,
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            height: 128,
+            padding: EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
               color: Palette.container,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
               children: [
-                Text(
-                  '시간',
-                  style: Palette.body.copyWith(
-                    color: todoAddViewModel.todoModel.time == null
-                        ? Palette.onSurfaceVariant
-                        : Palette.onSurface,
-                  ),
-                ),
-
-                // 시간 선택 컨테이너
-                CustomInkWell(
-                  onTap: todoAddViewModel.onPressedTime,
-                  onLongPress: todoAddViewModel.onLongPressTime,
-                  borderRadius: BorderRadius.circular(10),
-                  backgroundColor: Palette.surface,
-                  child: SizedBox(
-                    width: 100,
-                    height: 36,
-                    child: Center(
-                      child: Text(
-                        todoAddViewModel.getTime(),
-                        style: Palette.callout.copyWith(
+                // 시간
+                SizedBox(
+                  height: 64,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '시간',
+                        style: Palette.body.copyWith(
                           color: todoAddViewModel.todoModel.time == null
                               ? Palette.onSurfaceVariant
                               : Palette.onSurface,
                         ),
                       ),
-                    ),
+
+                      // 시간 선택 컨테이너
+                      CustomInkWell(
+                        onTap: todoAddViewModel.onPressedTime,
+                        onLongPress: todoAddViewModel.onLongPressTime,
+                        borderRadius: BorderRadius.circular(10),
+                        backgroundColor: Palette.surface,
+                        child: SizedBox(
+                          width: 100,
+                          height: 36,
+                          child: Center(
+                            child: Text(
+                              todoAddViewModel.getTime(),
+                              style: Palette.callout.copyWith(
+                                color: todoAddViewModel.todoModel.time == null
+                                    ? Palette.onSurfaceVariant
+                                    : Palette.onSurface,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                )
+                ),
+
+                // 알림
+                SizedBox(
+                  height: 64,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '알림',
+                        style: Palette.body.copyWith(
+                          color: todoAddViewModel.todoModel.time == null
+                              ? Palette.onSurfaceVariant
+                              : Palette.onSurface,
+                        ),
+                      ),
+
+                      // 시간 선택 컨테이너
+                      ToggleButton(
+                        isEnabled: todoAddViewModel.todoModel.isAlarm,
+                        onTap: todoAddViewModel.toggleAlarm,
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

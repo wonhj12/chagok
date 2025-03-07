@@ -87,6 +87,12 @@ class TodoAddViewModel with ChangeNotifier {
         : '설정 안함';
   }
 
+  /// 알림 토글
+  void toggleAlarm() {
+    todoModel.isAlarm = !todoModel.isAlarm;
+    notifyListeners();
+  }
+
   /// 주어진 감정과 선택된 감정 일치 여부를 반환
   bool isSelectedEmotion(Emotion emotion) {
     return emotion == todoModel.emotion;
@@ -129,6 +135,7 @@ class TodoAddViewModel with ChangeNotifier {
               : null,
           'emotion': todoModel.emotion.name,
           'isCompleted': false,
+          'isAlarm': todoModel.isAlarm,
         });
 
         // 모델에 등록한 일정 추가
@@ -145,6 +152,7 @@ class TodoAddViewModel with ChangeNotifier {
                 ? '${todoModel.time!.hour}:${todoModel.time!.minute}:00'
                 : null,
             'emotion': todoModel.emotion.name,
+            'isAlarm': todoModel.isAlarm,
           },
         );
 
@@ -156,6 +164,7 @@ class TodoAddViewModel with ChangeNotifier {
             time: todoModel.time,
             clearTime: todoModel.time == null,
             emotion: todoModel.emotion,
+            isAlarm: todoModel.isAlarm,
           );
 
           todoModel.sortTodo(todoModel.todos[todoModel.selectedWeekday()]);
