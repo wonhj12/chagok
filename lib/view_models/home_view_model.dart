@@ -5,6 +5,7 @@ import 'package:chagok/utils/api.dart';
 import 'package:chagok/utils/date_time.dart';
 import 'package:chagok/utils/enums/app_route.dart';
 import 'package:chagok/utils/enums/popup.dart';
+import 'package:chagok/utils/notification.dart';
 import 'package:chagok/utils/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -235,6 +236,14 @@ class HomeViewModel with ChangeNotifier {
     // db에 반영이 됐으면 TodoModel에도 반영
     if (response) {
       todo.updateTodo(isCompleted: !todo.isCompleted);
+
+      // 완료 변경시 알림 제거
+      if (todo.isCompleted) {
+        await cancelNotification(todo.id);
+      } else {
+        // 미완료 변경시 알림 등록
+        if (todo.isAlarm) await setNotification(todo);
+      }
     }
 
     notifyListeners();

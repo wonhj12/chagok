@@ -1,6 +1,7 @@
 import 'package:chagok/models/todo.dart';
 import 'package:chagok/utils/api.dart';
 import 'package:chagok/utils/enums/emotion.dart';
+import 'package:chagok/utils/notification.dart';
 import 'package:flutter/material.dart';
 
 class TodoModel with ChangeNotifier {
@@ -115,6 +116,9 @@ class TodoModel with ChangeNotifier {
     // selectedTodos에서 지우면 todos에도 지워짐
     if (response) {
       final Todo removed = todos[selectedWeekday()].removeAt(index);
+
+      // 알림 삭제
+      cancelNotification(removed.id);
 
       // 더이상 todo가 없으면 마커 삭제
       if (todos[selectedWeekday()].isEmpty)

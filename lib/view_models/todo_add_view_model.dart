@@ -3,6 +3,7 @@ import 'package:chagok/models/todo_model.dart';
 import 'package:chagok/utils/api.dart';
 import 'package:chagok/utils/date_time.dart';
 import 'package:chagok/utils/enums/emotion.dart';
+import 'package:chagok/utils/notification.dart';
 import 'package:chagok/utils/palette.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
@@ -140,6 +141,9 @@ class TodoAddViewModel with ChangeNotifier {
 
         // 모델에 등록한 일정 추가
         todoModel.addTodo(todo);
+
+        // 일정 알림 등록
+        if (todo.isAlarm) await setNotification(todo);
       } else if (todoModel.isTodoChanged()) {
         // 일정 수정
         // db 업데이트
@@ -167,6 +171,14 @@ class TodoAddViewModel with ChangeNotifier {
             isAlarm: todoModel.isAlarm,
           );
 
+          // 알림 등록
+          if (todoModel.selectedTodo!.isAlarm) {
+            setNotification(todoModel.selectedTodo!);
+          } else {
+            // 알림 제거
+            cancelNotification(todoModel.selectedTodo!.id);
+          }
+
           todoModel.sortTodo(todoModel.todos[todoModel.selectedWeekday()]);
         }
       } else {
@@ -180,6 +192,15 @@ class TodoAddViewModel with ChangeNotifier {
         if (response) {
           todoModel.selectedTodo!
               .updateTodo(isCompleted: !todoModel.selectedTodo!.isCompleted);
+
+          // 완료 변경시 알림 제거
+          if (todoModel.selectedTodo!.isCompleted) {
+            cancelNotification(todoModel.selectedTodo!.id);
+          } else {
+            // 미완료 변경시 알림 등록
+            if (todoModel.selectedTodo!.isAlarm)
+              setNotification(todoModel.selectedTodo!);
+          }
         }
       }
 
