@@ -51,7 +51,7 @@ class API {
     // 선택된 날짜가 포함된 주의 모든 일정 받아오기
     final List<Map<String, dynamic>> response = await supabase
         .from('todo')
-        .select('id, title, memo, date, time, emotion, isCompleted')
+        .select('id, title, memo, date, time, emotion, isCompleted, isAlarm')
         .gte('date', start)
         .lte('date', end)
         .order('time', ascending: true, nullsFirst: false)
