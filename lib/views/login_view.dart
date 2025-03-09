@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chagok/components/common/custom_scaffold.dart';
 import 'package:chagok/components/login/login_button.dart';
 import 'package:chagok/utils/palette.dart';
@@ -43,12 +45,13 @@ class LoginView extends StatelessWidget {
           const SizedBox(height: 12),
 
           // 애플 로그인
-          LoginButton(
-            icon: 'logo_apple.svg',
-            text: 'Apple로 시작하기',
-            background: Palette.container,
-            onTap: loginViewModel.signInWithApple,
-          ),
+          if (Platform.isIOS)
+            LoginButton(
+              icon: 'logo_apple.svg',
+              text: 'Apple로 시작하기',
+              background: Palette.container,
+              onTap: loginViewModel.signInWithApple,
+            ),
 
           const SizedBox(height: 64),
         ],
