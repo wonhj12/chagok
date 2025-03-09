@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class WeekDayTile extends StatelessWidget {
+  /// 넓이
+  final double width;
+
   /// 날짜
   final DateTime date;
 
@@ -18,6 +21,7 @@ class WeekDayTile extends StatelessWidget {
 
   const WeekDayTile({
     super.key,
+    required this.width,
     required this.date,
     required this.hastodo,
     required this.isSelected,
@@ -33,7 +37,7 @@ class WeekDayTile extends StatelessWidget {
       },
       behavior: HitTestBehavior.opaque,
       child: SizedBox(
-        width: 48,
+        width: width,
         height: 64,
         child: Column(
           mainAxisSize: MainAxisSize.min,

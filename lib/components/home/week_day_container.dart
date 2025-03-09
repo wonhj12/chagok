@@ -27,7 +27,8 @@ class WeekDayContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       // 타일 넓이
-      final double tileWidth = 48;
+      final double calculatedWidth = constraints.maxWidth / 7;
+      final double tileWidth = calculatedWidth < 48 ? calculatedWidth : 48;
 
       // 선택된 요일 계산
       final int selectedIndex =
@@ -59,6 +60,7 @@ class WeekDayContainer extends StatelessWidget {
             children: List.generate(
               7,
               (index) => WeekDayTile(
+                width: tileWidth,
                 date: selectedWeek[index],
                 hastodo: hasTodo(index),
                 isSelected: isSelectedDay(index),
